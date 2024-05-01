@@ -4,7 +4,7 @@ import {
   button, div, ul, li,
 } from '../../scripts/dom-helpers.js';
 
-const isMobile = window.matchMedia('(max-width: 600px)');
+const isDesktop = window.matchMedia('(min-width: 900px)');
 
 const toggleNavSection = (navDrop, expanded) => {
   const navControlButton = navDrop.querySelector(':scope > button');
@@ -42,7 +42,7 @@ function decorateNav(navSection) {
       liEl.classList.add('nav-drop');
       subList.setAttribute('id', `drop-${toClassName(liText)}-${idx}`);
       dropButton.addEventListener('click', () => {
-        if (isMobile.matches) {
+        if (!isDesktop.matches) {
           const expanded = dropButton.getAttribute('aria-expanded') === 'true';
           toggleAllNavSections(navList);
           toggleNavSection(liEl, !expanded);
@@ -51,10 +51,10 @@ function decorateNav(navSection) {
     }
   });
 
-  isMobile.addEventListener('change', () => {
-    toggleAllNavSections(navList, !isMobile.matches);
+  isDesktop.addEventListener('change', () => {
+    toggleAllNavSections(navList, isDesktop.matches);
   });
-  toggleAllNavSections(navList, !isMobile.matches);
+  toggleAllNavSections(navList, isDesktop.matches);
 }
 
 function decorateApps(appsSection) {
