@@ -1,6 +1,5 @@
 import {
   sampleRUM,
-  buildBlock,
   loadHeader,
   loadFooter,
   decorateButtons,
@@ -12,22 +11,89 @@ import {
   loadBlocks,
   loadCSS,
 } from './aem.js';
+import { wrapImgsInLinks } from './utils.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
+const ICONS_CACHE = {};
+
 /**
- * Builds hero block and prepends to main in a new section.
- * @param {Element} main The container element
+ * Attempt to replace <img> with <svg><use> to allow styling based on use of current color
+ * @param {icon} icon <img> element
  */
-function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
-    main.prepend(section);
+async function spriteIcon(icon) {
+  const { iconName } = icon.dataset;
+  if (!ICONS_CACHE[iconName]) {
+    try {
+      const response = await fetch(icon.src);
+      if (!response.ok) {
+        return;
+      }
+
+      const svg = await response.text();
+      const parser = new DOMParser();
+      const svgDOM = parser.parseFromString(svg, 'image/svg+xml');
+      const svgElem = svgDOM.querySelector('svg');
+
+      // only sprite icons that use currentColor
+      if (svg.toLowerCase().includes('currentcolor')) {
+        const symbol = document.createElementNS('http://www.w3.org/2000/svg', 'symbol');
+        symbol.id = `icons-sprite-${iconName}`;
+        symbol.setAttribute('viewBox', svgElem.getAttribute('viewBox'));
+        while (svgElem.firstElementChild) {
+          symbol.append(svgElem.firstElementChild);
+        }
+        ICONS_CACHE[iconName] = { symbol };
+        const svgSprite = document.getElementById('franklin-svg-sprite');
+        svgSprite.append(symbol);
+      } else {
+        icon.alt = svgElem.querySelector('title') ? svgElem.querySelector('title').textContent : iconName;
+        ICONS_CACHE[iconName] = true;
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
   }
+
+  if (document.getElementById(`icons-sprite-${iconName}`)) {
+    const span = icon.closest('span.icon');
+    if (span) span.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg"><use href="#icons-sprite-${iconName}"/></svg>`;
+  }
+}
+
+/**
+ * Add intersection observer to all icons in an element, to sprite them if possible
+ * @param {Element} element element that contains icons
+ * @param {string} [prefix] prefix for icon names
+ */
+export function spriteIcons(element) {
+  // Prepare the inline sprite
+  let svgSprite = document.getElementById('franklin-svg-sprite');
+  if (!svgSprite) {
+    const div = document.createElement('div');
+    div.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" id="franklin-svg-sprite" style="display: none"></svg>';
+    svgSprite = div.firstElementChild;
+    document.body.append(div.firstElementChild);
+  }
+
+  decorateIcons(element);
+  const icons = [...element.querySelectorAll('span.icon')];
+  icons.forEach((span) => {
+    const img = span.querySelector('img');
+    if (!img) {
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          spriteIcon(img);
+          observer.disconnect();
+        }
+      });
+    });
+    observer.observe(img);
+  });
 }
 
 /**
@@ -48,7 +114,7 @@ async function loadFonts() {
  */
 function buildAutoBlocks(main) {
   try {
-    buildHeroBlock(main);
+    // buildHeroBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -62,11 +128,12 @@ function buildAutoBlocks(main) {
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
-  decorateButtons(main);
-  decorateIcons(main);
-  buildAutoBlocks(main);
   decorateSections(main);
+  buildAutoBlocks(main);
   decorateBlocks(main);
+  wrapImgsInLinks(main);
+  decorateButtons(main);
+  spriteIcons(main);
 }
 
 /**
