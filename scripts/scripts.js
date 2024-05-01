@@ -10,6 +10,7 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  buildBlock,
 } from './aem.js';
 import { wrapImgsInLinks } from './utils.js';
 
@@ -108,13 +109,27 @@ async function loadFonts() {
   }
 }
 
+function buildFragmentBlocks(container) {
+  container.querySelectorAll('a[href*="/fragments/"]:only-child').forEach((a) => {
+    const parent = a.parentNode;
+    const fragment = buildBlock('fragment', [[a.cloneNode(true)]]);
+    if (parent.tagName === 'P') {
+      parent.before(fragment);
+      parent.remove();
+    } else {
+      a.before(fragment);
+      a.remove();
+    }
+  });
+}
+
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
 function buildAutoBlocks(main) {
   try {
-    // buildHeroBlock(main);
+    buildFragmentBlocks(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
