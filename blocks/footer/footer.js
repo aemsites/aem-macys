@@ -25,6 +25,16 @@ const toggleAllNavSections = (navUl, expanded = false) => {
   });
 };
 
+function toggleNavButtonAbility(navList, buttonsDisabled) {
+  navList.querySelectorAll('.nav-drop > button').forEach((btn) => {
+    if (buttonsDisabled) {
+      btn.setAttribute('disabled', '');
+    } else {
+      btn.removeAttribute('disabled');
+    }
+  });
+}
+
 function decorateNav(navSection) {
   if (!navSection || !navSection.querySelector('ul')) return;
 
@@ -53,8 +63,10 @@ function decorateNav(navSection) {
 
   isDesktop.addEventListener('change', () => {
     toggleAllNavSections(navList, isDesktop.matches);
+    toggleNavButtonAbility(navList, isDesktop.matches);
   });
   toggleAllNavSections(navList, isDesktop.matches);
+  toggleNavButtonAbility(navList, isDesktop.matches);
 }
 
 function decorateApps(appsSection) {
