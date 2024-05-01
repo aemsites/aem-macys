@@ -136,18 +136,32 @@ function buildAutoBlocks(main) {
   }
 }
 
+function mergeButtonContainers(main) {
+  let moreContainers = true;
+  while (moreContainers) {
+    const containerToMerge = main.querySelector('.button-container + .button-container');
+    if (containerToMerge) {
+      const mergeTo = containerToMerge.previousElementSibling;
+      mergeTo.append(...containerToMerge.children);
+      containerToMerge.remove();
+    } else {
+      moreContainers = false;
+    }
+  }
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
-  // hopefully forward compatible button decoration
   decorateSections(main);
   buildAutoBlocks(main);
   decorateBlocks(main);
   wrapImgsInLinks(main);
   decorateButtons(main);
+  mergeButtonContainers(main);
   spriteIcons(main);
 }
 
