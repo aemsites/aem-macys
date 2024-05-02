@@ -28,7 +28,18 @@ main .hero .img-container picture > img {
 
 main .hero .heading-container,
 main .hero .text-container {
-  padding: 2rem;
+  padding-inline: 2rem;
+}
+
+main .hero .heading-container {
+  padding-block-start: 2rem;
+}
+
+main .hero .text-container {
+  padding-block-end: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 main .hero .heading-container h1, 
@@ -40,6 +51,17 @@ main .hero .button-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+}
+
+main .hero .button-container .button {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  color: #000;
+  font-weight: 400;
+  border-radius: 5px;
 }
 
 @media (width >= 900px) {
