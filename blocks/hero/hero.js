@@ -3,34 +3,30 @@ import { div } from '../../scripts/dom-helpers.js';
 function decorateImages(imgContainer) {
   imgContainer.dataset.displayIndex = 0;
   imgContainer.dataset.autoScroll = true;
-  imgContainer.dataset.autoScrollSkip = false;
   setInterval(() => {
-    if (imgContainer.dataset.autoScroll === 'true' && imgContainer.dataset.autoScrollSkip === 'false') {
+    if (imgContainer.dataset.autoScroll === 'true') {
       const displayIndex = parseInt(imgContainer.dataset.displayIndex, 10) + 1;
       let realDisplayIndex = displayIndex < 0 ? imgContainer.children.length - 1 : displayIndex;
       if (displayIndex >= imgContainer.children.length) realDisplayIndex = 0;
       const toDisplay = imgContainer.children[realDisplayIndex];
       imgContainer.scrollTo({
         top: 0,
-        left: toDisplay.offsetLeft,
+        left: toDisplay.offsetLeft - imgContainer.offsetLeft,
         behavior: 'smooth',
       });
       imgContainer.dataset.displayIndex = realDisplayIndex;
     }
-    imgContainer.dataset.autoScrollSkip = false;
   }, 5000);
   imgContainer.addEventListener('mouseover', () => {
     imgContainer.dataset.autoScroll = false;
   });
   imgContainer.addEventListener('mouseout', () => {
     imgContainer.dataset.autoScroll = true;
-    imgContainer.dataset.autoScrollSkip = true;
   });
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         imgContainer.dataset.autoScroll = true;
-        imgContainer.dataset.autoScrollSkip = true;
       } else {
         imgContainer.dataset.autoScroll = false;
       }
