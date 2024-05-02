@@ -13,6 +13,14 @@ main .hero .img-container {
   }
 }
 
+@media (width >= 900px) {
+  main .hero {
+    width: 100%;
+    aspect-ratio: 2;
+  }
+
+}
+
 main .hero .img-container > * {
   position: absolute;
   inset: 0;
