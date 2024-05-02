@@ -3,16 +3,25 @@ import { div } from '../../scripts/dom-helpers.js';
 function decorateImages(imgContainer) {
   imgContainer.dataset.displayIndex = 0;
   imgContainer.dataset.autoScroll = true;
+  [...imgContainer.children].forEach((child, idx) => {
+    if (idx === 0) {
+      child.classList.add('active');
+    } else {
+      child.classList.remove('active');
+    }
+  });
+
   setInterval(() => {
     if (imgContainer.dataset.autoScroll === 'true') {
       const displayIndex = parseInt(imgContainer.dataset.displayIndex, 10) + 1;
       let realDisplayIndex = displayIndex < 0 ? imgContainer.children.length - 1 : displayIndex;
       if (displayIndex >= imgContainer.children.length) realDisplayIndex = 0;
-      const toDisplay = imgContainer.children[realDisplayIndex];
-      imgContainer.scrollTo({
-        top: 0,
-        left: toDisplay.offsetLeft - imgContainer.offsetLeft,
-        behavior: 'smooth',
+      [...imgContainer.children].forEach((child, idx) => {
+        if (idx === realDisplayIndex) {
+          child.classList.add('active');
+        } else {
+          child.classList.remove('active');
+        }
       });
       imgContainer.dataset.displayIndex = realDisplayIndex;
     }

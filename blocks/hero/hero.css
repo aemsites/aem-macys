@@ -3,21 +3,18 @@ main .hero {
 }
 
 main .hero .img-container {
-  display: flex;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  overflow: scroll clip;
-}
-
-main .hero .img-container::-webkit-scrollbar {
-  display: none;
+  position: relative;
 }
 
 main .hero .img-container > * {
-  flex: 0 0 100%;
-  scroll-snap-align: start;
-  width: 100%;
-  position: relative;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+main .hero .img-container > *.active {
+  opacity: 1;
 }
 
 main .hero .img-container picture > img {
