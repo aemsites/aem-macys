@@ -20,9 +20,9 @@
   --text-color: black;
 
   /* fonts */
-  --body-font-family: roboto, roboto-fallback;
+  --body-font-family: "Macys Sans", "Macys Sans-fallback", sans-serif;
   --heading-font-family: var(--body-font-family);
-  --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
+  --fixed-font-family: menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
   --body-font-size-m: 20px;
@@ -44,7 +44,14 @@
 }
 
 @font-face {
-  font-family: roboto-fallback;
+  font-family: "Macys Sans-fallback";
+  size-adjust: 100.06%;
+  ascent-override: 95%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: TT-Ramillas-fallback;
   size-adjust: 100.06%;
   ascent-override: 95%;
   src: local('Arial');
@@ -89,7 +96,11 @@ h4, h5, h6 {
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
-h1 { font-size: var(--heading-font-size-xxl) }
+h1 {
+  font-family: TT-Ramillas, TT-Ramillas-fallback, sans-serif;
+  font-size: var(--heading-font-size-xxl)
+}
+
 h2 { font-size: var(--heading-font-size-xl) }
 h3 { font-size: var(--heading-font-size-l) }
 h4 { font-size: var(--heading-font-size-m) }
