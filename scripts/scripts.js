@@ -150,6 +150,19 @@ function mergeButtonContainers(main) {
   }
 }
 
+function trimAllWhitespace(text) {
+  return text ? text.replace(/\s/g, ' ').trim() : '';
+}
+
+function decorateLinks(element) {
+  element.querySelectorAll('a').forEach((a) => {
+    a.title = trimAllWhitespace(a.title || a.textContent);
+    if (!a.title || trimAllWhitespace(a.title).length === 0) {
+      a.removeAttribute('title');
+    }
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -159,6 +172,7 @@ export function decorateMain(main) {
   decorateSections(main);
   buildAutoBlocks(main);
   decorateBlocks(main);
+  decorateLinks(main);
   wrapImgsInLinks(main);
   decorateButtons(main);
   mergeButtonContainers(main);
