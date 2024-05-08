@@ -88,7 +88,7 @@
   z-index: 1;
 }
 
-.carousel:not(:has(.carousel-slide[aria-hidden="true"])) .carousel-navigation-buttons {
+.carousel:not(:has(.carousel-slide[data-fully-shown="false"])) .carousel-navigation-buttons {
   display: none;
 }
 
