@@ -83,7 +83,7 @@ function bindEvents(block) {
   });
 }
 
-function createSlide(row, slideIndex, carouselId) {
+export function createSlide(row, slideIndex, carouselId) {
   const slide = document.createElement('li');
   slide.dataset.slideIndex = slideIndex;
   slide.setAttribute('id', `carousel-${carouselId}-slide-${slideIndex}`);
@@ -91,7 +91,17 @@ function createSlide(row, slideIndex, carouselId) {
 
   const cols = row.querySelectorAll(':scope > div');
   cols.forEach((column, colIdx) => {
-    column.classList.add(`carousel-slide-${colIdx === 0 ? 'image' : 'content'}`);
+    if (colIdx === 0 && column.querySelector('picture')) {
+      column.classList.add('carousel-slide-image');
+    } else {
+      column.classList.add('carousel-slide-content');
+      column.querySelectorAll('.button-container').forEach((btnCon) => {
+        btnCon.classList.remove('button-container');
+        btnCon.querySelectorAll('.button').forEach((btn) => {
+          btn.classList.remove('button');
+        });
+      });
+    }
     slide.append(column);
   });
 

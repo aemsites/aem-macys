@@ -1,0 +1,62 @@
+main .product-carousel .carousel-slide {
+  flex: 0 0 240px;
+  justify-content: flex-start;
+  width: 240px;
+}
+
+main .product-carousel .carousel-slide.loading {
+  animation-duration: 1.8s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-name: loading;
+      animation-timing-function: linear;
+      background: linear-gradient(to right, #c9c9c9 8%, #a4a4a4 38%, #c9c9c9 54%);
+      background-size: 1000px 640px;
+}
+
+@keyframes loading {
+  0% {
+      background-position: -468px 0
+  }
+
+  100% {
+    background-position: 468px 0
+  }
+}
+
+main .product-carousel .carousel-slide .carousel-slide-image {
+  position: relative;
+  height: 300px;
+  width: 240px;
+}
+
+main .product-carousel .carousel-slide .carousel-slide-content {
+  color: var(--text-color);
+  background-color: var(--background-color);
+  position: static;
+  padding: 0;
+}
+
+main .product-carousel .carousel-slide .carousel-slide-content a:any-link {
+  color: var(--text-color);
+}
+
+main .product-carousel .carousel-slide .carousel-slide-content a.product-link,
+main .product-carousel .carousel-slide .carousel-slide-content a.product-link h3 {
+  font-size: var(--body-font-size-m);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+main .product-carousel .carousel-slide .carousel-slide-content a.product-link h3 {
+  /* stylelint-disable-next-line value-no-vendor-prefix */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+main .product-carousel .carousel-slide .carousel-slide-content a.product-link:hover {
+  text-decoration: underline;
+}

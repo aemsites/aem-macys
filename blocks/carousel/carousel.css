@@ -63,6 +63,10 @@
   right: 0;
 }
 
+.carousel .carousel-slide .carousel-slide-content a:any-link {
+  color: var(--background-color);
+}
+
 .carousel .carousel-navigation-buttons span {
   border: 0;
   clip: rect(0 0 0 0);
