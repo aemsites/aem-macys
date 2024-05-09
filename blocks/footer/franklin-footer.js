@@ -46,7 +46,10 @@ export class FranklinFooter extends HTMLElement {
 
         const wrapper = document.createElement('div');
         body.append(wrapper);
-        const block = buildBlock('footer', '');
+        const a = document.createElement('a');
+        a.href = `${origin}/footer`;
+        a.textContent = a.href;
+        const block = buildBlock('footer', a);
         wrapper.append(block);
         decorateBlock(block);
 

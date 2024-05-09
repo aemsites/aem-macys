@@ -218,6 +218,7 @@ async function loadFooter(footer) {
     type: 'module',
   });
   const footerWebComponent = document.createElement('franklin-footer');
+  footerWebComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.hlx.live');
   footer.append(footerWebComponent);
 }
 

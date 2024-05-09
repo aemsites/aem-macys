@@ -1,4 +1,4 @@
-import { getMetadata, toClassName } from '../../scripts/aem.js';
+import { toClassName } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import {
   button, div, ul, li,
@@ -113,8 +113,8 @@ function decorateCard(cardSection) {
  */
 export default async function decorate(block) {
   // load footer as fragment
-  const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
+  const a = block.querySelector('a');
+  const footerPath = a ? new URL(a.href, window.location).pathname : '/footer';
   const fragment = await loadFragment(footerPath);
 
   // decorate footer DOM
