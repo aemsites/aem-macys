@@ -1,7 +1,6 @@
 import {
   sampleRUM,
   loadHeader,
-  loadFooter,
   decorateButtons,
   decorateIcons,
   decorateSections,
@@ -11,6 +10,7 @@ import {
   loadBlocks,
   loadCSS,
   buildBlock,
+  loadScript,
 } from './aem.js';
 import { wrapImgsInLinks } from './utils.js';
 
@@ -23,8 +23,28 @@ const ICONS_CACHE = {};
  * @param {icon} icon <img> element
  */
 async function spriteIcon(icon) {
+  // init the sprite
+  let svgSprite;
+  if (icon.getRootNode() instanceof ShadowRoot) {
+    svgSprite = icon.getRootNode().querySelector('#franklin-svg-sprite');
+  } else {
+    svgSprite = document.getElementById('franklin-svg-sprite');
+  }
+  if (!svgSprite) {
+    const div = document.createElement('div');
+    div.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" id="franklin-svg-sprite" style="display: none"></svg>';
+    svgSprite = div.firstElementChild;
+    if (icon.getRootNode() instanceof ShadowRoot) {
+      icon.getRootNode().append(svgSprite);
+    } else {
+      document.body.append(svgSprite);
+    }
+  }
+
   const { iconName } = icon.dataset;
-  if (!ICONS_CACHE[iconName]) {
+  if (ICONS_CACHE[iconName]) {
+    icon.alt = ICONS_CACHE[iconName];
+  } else if (!svgSprite.querySelector(`#icons-sprite-${iconName}`)) {
     try {
       const response = await fetch(icon.src);
       if (!response.ok) {
@@ -44,12 +64,11 @@ async function spriteIcon(icon) {
         while (svgElem.firstElementChild) {
           symbol.append(svgElem.firstElementChild);
         }
-        ICONS_CACHE[iconName] = { symbol };
-        const svgSprite = document.getElementById('franklin-svg-sprite');
         svgSprite.append(symbol);
       } else {
-        icon.alt = svgElem.querySelector('title') ? svgElem.querySelector('title').textContent : iconName;
-        ICONS_CACHE[iconName] = true;
+        const title = svgElem.querySelector('title') ? svgElem.querySelector('title').textContent : iconName;
+        icon.alt = title;
+        ICONS_CACHE[iconName] = title;
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -57,7 +76,7 @@ async function spriteIcon(icon) {
     }
   }
 
-  if (document.getElementById(`icons-sprite-${iconName}`)) {
+  if (svgSprite.querySelector(`#icons-sprite-${iconName}`)) {
     const span = icon.closest('span.icon');
     if (span) span.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg"><use href="#icons-sprite-${iconName}"/></svg>`;
   }
@@ -69,15 +88,6 @@ async function spriteIcon(icon) {
  * @param {string} [prefix] prefix for icon names
  */
 export function spriteIcons(element) {
-  // Prepare the inline sprite
-  let svgSprite = document.getElementById('franklin-svg-sprite');
-  if (!svgSprite) {
-    const div = document.createElement('div');
-    div.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" id="franklin-svg-sprite" style="display: none"></svg>';
-    svgSprite = div.firstElementChild;
-    document.body.append(div.firstElementChild);
-  }
-
   decorateIcons(element);
   const icons = [...element.querySelectorAll('span.icon')];
   icons.forEach((span) => {
@@ -201,6 +211,14 @@ async function loadEager(doc) {
   } catch (e) {
     // do nothing
   }
+}
+
+async function loadFooter(footer) {
+  await loadScript('/blocks/footer/franklin-footer.js', {
+    type: 'module',
+  });
+  const footerWebComponent = document.createElement('franklin-footer');
+  footer.append(footerWebComponent);
 }
 
 /**
