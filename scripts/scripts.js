@@ -1,6 +1,5 @@
 import {
   sampleRUM,
-  loadHeader,
   decorateButtons,
   decorateIcons,
   decorateSections,
@@ -213,13 +212,22 @@ async function loadEager(doc) {
   }
 }
 
-async function loadFooter(footer) {
-  await loadScript('/blocks/footer/franklin-footer.js', {
+async function loadHeader(header) {
+  await loadScript('/blocks/header/aem-header.js', {
     type: 'module',
   });
-  const footerWebComponent = document.createElement('franklin-footer');
-  footerWebComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.aem.live');
-  footer.append(footerWebComponent);
+  const webComponent = document.createElement('aem-header');
+  // webComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.hlx.live');
+  header.append(webComponent);
+}
+
+async function loadFooter(footer) {
+  await loadScript('/blocks/footer/aem-footer.js', {
+    type: 'module',
+  });
+  const webComponent = document.createElement('aem-footer');
+  // webComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.hlx.live');
+  footer.append(webComponent);
 }
 
 /**

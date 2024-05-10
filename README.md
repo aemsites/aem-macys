@@ -2,8 +2,8 @@
 Your project's description...
 
 ## Environments
-- Preview: https://main--aem-macys--aemsites.hlx.page/
-- Live: https://main--aem-macys--aemsites.hlx.live/
+- Preview: https://main--aem-macys--aemsites.aem.page/
+- Live: https://main--aem-macys--aemsites.aem.live/
 
 ## Installation
 
