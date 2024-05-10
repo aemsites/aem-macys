@@ -10,6 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
+ *, *::before, *::after {
+  box-sizing: border-box;
+ }
+
 :root {
   /* colors */
   --link-color: #035fe6;
@@ -155,7 +159,6 @@ a.button:any-link, button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
   text-decoration: none;
   border: none;
   padding: 0 1.25rem;
