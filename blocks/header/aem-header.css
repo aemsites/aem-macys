@@ -1,3 +1,9 @@
+.header-wrapper {
+  margin-inline: auto;
+  max-width: var(--max-content-width);
+  padding: 1rem 1.25rem;
+}
+
 .header-wrapper[aria-hidden="true"],
 .header-wrapper:has(.block[data-block-status="error"]) {
   display: none;

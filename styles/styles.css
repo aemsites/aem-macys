@@ -39,7 +39,7 @@
   --heading-font-size-xs: 18px;
 
   /* nav height */
-  --nav-height: 64px;
+  --nav-height: 128px;
   --max-content-width: 1480px;
 }
 
@@ -148,28 +148,31 @@ a:any-link :is(h1, h2, h3, h4, h5, h6),
 
 /* buttons */
 a.button:any-link, button {
-  font-size: var(--body-font-size-m);
   font-family: var(--body-font-family);
-  display: inline-block;
+  font-size: var(--body-font-size-m);
+  font-weight: 500;
+  font-style: normal;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   text-decoration: none;
-  border: 2px solid transparent;
-  padding: 5px 30px;
+  border: none;
+  padding: 0 1.25rem;
   text-align: center;
-  font-style: normal;
-  font-weight: 700;
   cursor: pointer;
-  color: var(--background-color);
-  background-color: var(--link-color);
+  background-color: #000;
+  color: #fff;
   margin: 16px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-radius: 30px;
+  border-radius: 5px;
+  height: 3.125rem;
 }
 
 a.button:hover, a.button:focus, button:hover, button:focus  {
-  background-color: var(--link-hover-color);
+  box-shadow: inset 0 0 0 30px hsla(0deg 0% 100% / 25%);
   cursor: pointer;
 }
 
@@ -179,9 +182,8 @@ button:disabled, button:disabled:hover {
 }
 
 a.button.secondary, button.secondary {
-  background-color: unset;
-  border: 2px solid currentcolor;
-  color: var(--text-color)
+  background-color: #fff;
+  color: #000;
 }
 
 img {

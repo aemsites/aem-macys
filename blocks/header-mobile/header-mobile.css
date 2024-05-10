@@ -1,0 +1,36 @@
+@import url('./shared-header.css');
+
+.header-mobile .mobile-nav {
+  display: none;
+}
+
+.header-mobile .header-upper {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 14px 141px 1fr;
+  grid-template-rows: 40px 40px;
+}
+
+.header-mobile .header-upper > * {
+  grid-row: 1;
+  align-self: center;
+}
+
+.header-mobile .header-upper .section.tools {
+  justify-self: end;
+}
+
+.header-mobile .header-upper .section.tools ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.header-mobile .header-upper .section.search {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}

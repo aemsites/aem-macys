@@ -5,6 +5,7 @@ import { loadFragment } from '../fragment/fragment.js';
  * @param {Element} block The footer block element
  */
 export default async function decorate(block) {
+  block.classList.add('shared-header');
   const a = block.querySelector('a');
   const fragmentPath = a ? new URL(a.href, window.location).href : '/nav-desktop';
   const fragment = await loadFragment(fragmentPath);

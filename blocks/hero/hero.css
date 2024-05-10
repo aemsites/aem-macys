@@ -67,13 +67,7 @@ main .hero .button-container {
 
 main .hero .button-container .button {
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  color: #000;
   font-weight: 400;
-  border-radius: 5px;
 }
 
 @media (width >= 900px) {

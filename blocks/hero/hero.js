@@ -68,5 +68,8 @@ export default async function decorate(block) {
     });
   });
   decorateImages(imgContainer);
+  textContainer.querySelectorAll('.button').forEach((btn) => {
+    btn.classList.add('secondary');
+  });
   block.replaceChildren(headingContainer, imgContainer, textContainer);
 }
