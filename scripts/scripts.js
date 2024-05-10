@@ -218,7 +218,7 @@ async function loadFooter(footer) {
     type: 'module',
   });
   const footerWebComponent = document.createElement('franklin-footer');
-  footerWebComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.hlx.live');
+  footerWebComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.aem.live');
   footer.append(footerWebComponent);
 }
 

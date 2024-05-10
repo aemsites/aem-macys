@@ -114,7 +114,7 @@ function decorateCard(cardSection) {
 export default async function decorate(block) {
   // load footer as fragment
   const a = block.querySelector('a');
-  const footerPath = a ? new URL(a.href, window.location).pathname : '/footer';
+  const footerPath = a ? new URL(a.href, window.location).href : '/footer';
   const fragment = await loadFragment(footerPath);
 
   // decorate footer DOM

@@ -52,8 +52,20 @@ export class FranklinFooter extends HTMLElement {
         const block = buildBlock('footer', a);
         wrapper.append(block);
         decorateBlock(block);
+        await decorate(block);
 
-        decorate(block);
+        const resetAttributeBase = (tag, attr) => {
+          block.querySelectorAll(`${tag}[${attr}^="/"]`).forEach((elem) => {
+            const newVal = new URL(elem.getAttribute(attr), origin).href;
+            elem[attr] = newVal;
+          });
+        };
+        resetAttributeBase('a', 'href');
+        resetAttributeBase('img', 'src');
+        resetAttributeBase('source', 'srcset');
+        resetAttributeBase('script', 'src');
+        resetAttributeBase('link', 'href');
+
         body.classList.add('appear');
       } catch (err) {
         // eslint-disable-next-line no-console
