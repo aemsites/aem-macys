@@ -52,6 +52,7 @@ export class AEMFooter extends HTMLElement {
         const block = buildBlock('footer', a);
         wrapper.append(block);
         decorateBlock(block);
+        block.dataset.blockStatus = 'loading';
         await decorate(block);
 
         const resetAttributeBase = (tag, attr) => {
@@ -64,6 +65,7 @@ export class AEMFooter extends HTMLElement {
         resetAttributeBase('img', 'src');
         resetAttributeBase('source', 'srcset');
 
+        block.dataset.blockStatus = 'loaded';
         body.classList.add('appear');
       } catch (err) {
         // eslint-disable-next-line no-console

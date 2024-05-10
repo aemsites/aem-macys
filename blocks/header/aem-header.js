@@ -26,6 +26,7 @@ export class AEMHeader extends HTMLElement {
     wrapper.append(block);
     decorateBlock(block);
 
+    block.dataset.blockStatus = 'loading';
     const mod = await import(`../header-${name}/header-${name}.js`);
     if (mod.default) {
       await mod.default(block);
@@ -40,6 +41,7 @@ export class AEMHeader extends HTMLElement {
       resetAttributeBase('img', 'src');
       resetAttributeBase('source', 'srcset');
     }
+    block.dataset.blockStatus = 'loaded';
   }
 
   async loadDesktopHeader(wrapper) {
