@@ -27,21 +27,27 @@ export class AEMHeader extends HTMLElement {
     decorateBlock(block);
 
     block.dataset.blockStatus = 'loading';
-    const mod = await import(`../header-${name}/header-${name}.js`);
-    if (mod.default) {
-      await mod.default(block);
+    try {
+      const mod = await import(`../header-${name}/header-${name}.js`);
+      if (mod.default) {
+        await mod.default(block);
 
-      const resetAttributeBase = (tag, attr) => {
-        block.querySelectorAll(`${tag}[${attr}^="/"]`).forEach((elem) => {
-          const newVal = new URL(elem.getAttribute(attr), origin).href;
-          elem[attr] = newVal;
-        });
-      };
-      resetAttributeBase('a', 'href');
-      resetAttributeBase('img', 'src');
-      resetAttributeBase('source', 'srcset');
+        const resetAttributeBase = (tag, attr) => {
+          block.querySelectorAll(`${tag}[${attr}^="/"]`).forEach((elem) => {
+            const newVal = new URL(elem.getAttribute(attr), origin).href;
+            elem[attr] = newVal;
+          });
+        };
+        resetAttributeBase('a', 'href');
+        resetAttributeBase('img', 'src');
+        resetAttributeBase('source', 'srcset');
+      }
+      block.dataset.blockStatus = 'loaded';
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err || 'An error occured while loading the header');
+      block.dataset.blockStatus = 'error';
     }
-    block.dataset.blockStatus = 'loaded';
   }
 
   async loadDesktopHeader(wrapper) {

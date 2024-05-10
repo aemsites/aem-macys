@@ -8,5 +8,6 @@ export default async function decorate(block) {
   const a = block.querySelector('a');
   const fragmentPath = a ? new URL(a.href, window.location).href : '/nav-desktop';
   const fragment = await loadFragment(fragmentPath);
+  block.textContent = '';
   while (fragment.firstElementChild) block.append(fragment.firstElementChild);
 }

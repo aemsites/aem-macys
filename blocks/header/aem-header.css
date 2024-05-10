@@ -1,3 +1,4 @@
-.header-wrapper[aria-hidden="true"] {
+.header-wrapper[aria-hidden="true"],
+.header-wrapper:has(.block[data-block-status="error"]) {
   display: none;
 }
