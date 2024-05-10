@@ -217,7 +217,7 @@ async function loadHeader(header) {
     type: 'module',
   });
   const webComponent = document.createElement('aem-header');
-  // webComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.hlx.live');
+  // webComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.aem.live');
   header.append(webComponent);
 }
 
@@ -226,7 +226,7 @@ async function loadFooter(footer) {
     type: 'module',
   });
   const webComponent = document.createElement('aem-footer');
-  // webComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.hlx.live');
+  // webComponent.setAttribute('origin', 'https://main--aem-macys--aemsites.aem.live');
   footer.append(webComponent);
 }
 
