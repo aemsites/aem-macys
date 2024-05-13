@@ -85,7 +85,7 @@ main .product-carousel .carousel-slide .carousel-slide-content .product-pricing 
 
 main .product-carousel .carousel-slide .carousel-slide-content .product-pricing p.price-discount,
 main .product-carousel .carousel-slide .carousel-slide-content .product-pricing p.price-final {
-  color: #e01a2b;
+  color: var(--color-macys-red);
 }
 
 main .product-carousel .carousel-slide .carousel-slide-content .product-reviews {
