@@ -1,6 +1,6 @@
 import { loadFragment } from '../fragment/fragment.js';
 import {
-  div, nav, button, span, domEl
+  div, nav, button, span, domEl,
 } from '../../scripts/dom-helpers.js';
 
 function decorateBrand(brandSection) {
