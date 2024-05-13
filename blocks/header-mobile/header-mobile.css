@@ -18,6 +18,11 @@
   display: grid;
 }
 
+.header-mobile .mobile-nav .mobile-nav-inner > .section:last-child,
+.header-mobile .mobile-nav .mobile-nav-inner > ul > li:last-child {
+  margin-block-end: 1.25rem;
+}
+
 .header-mobile .mobile-nav .mobile-nav-inner > .section:not(:last-child) {
   border-bottom: 1px solid silver;
 }
@@ -114,7 +119,7 @@
 .header-mobile .mobile-nav .menu-toggler.toggle-closed {
   text-align: center;
   justify-content: center;
-  padding-block: 1.5rem;
+  padding-block: .25rem 1.5rem;
   border-bottom: 1px solid silver;
   font-weight: 700;
   font-size: var(--body-font-size-l);
@@ -197,6 +202,11 @@
 .header-mobile .section.utility .util-sub-menu p {
   margin: 0;
   font-weight: 500;
+}
+
+/* user nav */
+.header-mobile .section.user .default-content-wrapper > ul {
+  padding-block-start: 0;
 }
 
 /* hamburger */
