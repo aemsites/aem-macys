@@ -13,6 +13,7 @@
 .header-mobile .mobile-nav .mobile-nav-inner {
   padding: 1.25rem 1rem;
   overflow: clip auto;
+  overscroll-behavior-y: contain;
   max-height: calc(100dvh - var(--nav-height));
   display: grid;
 }
