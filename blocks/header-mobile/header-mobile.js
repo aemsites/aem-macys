@@ -1,6 +1,6 @@
 import { loadFragment } from '../fragment/fragment.js';
 import {
-  div, nav, button, span, p, domEl,
+  div, nav, button, span, p, domEl, form,
 } from '../../scripts/dom-helpers.js';
 import { toClassName } from '../../scripts/aem.js';
 
@@ -152,13 +152,17 @@ function decorateSearch(searchSection) {
   if (!searchSection) return;
 
   const icon = searchSection.querySelector('.icon');
-  searchSection.replaceChildren(div(
-    { class: 'search-input-container' },
+  searchSection.replaceChildren(form(
+    {
+      class: 'search-input-container',
+      action: 'https://www.macys.com/shop/search',
+    },
     icon,
     domEl('input', {
       class: 'search-input',
       'aria-description': 'search',
       placeholder: 'Search',
+      name: 'keyword',
       type: 'text',
     }),
   ));
