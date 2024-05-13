@@ -1,11 +1,112 @@
 @import url('./shared-header.css');
 
 .header-mobile .mobile-nav {
-  display: none;
+  position: absolute;
+  left: -20.375rem;
+  top: var(--nav-height);
+  width: 325px;
+  transition: all .2s ease-out;
+  background-color: var(--background-color);
+  z-index: 10;
+}
+
+.header-mobile .mobile-nav .mobile-nav-inner {
+  padding: 1.25rem 1rem;
+  overflow: clip scroll;
+  max-height: calc(100vh - var(--nav-height));
+}
+
+.header-mobile .mobile-nav.expanded {
+  left: 0;
+}
+
+.header-mobile .mobile-nav + .nav-curtain {
+  background-color: rgba(0,0,0,.5);
+  position: absolute;
+  inset: 0;
+  transition: opacity .25s linear 50ms;
+  opacity: 0;
+  top: var(--nav-height);
+  visibility: hidden;
+  width: 100%;
+  z-index: 9;
+}
+
+.header-mobile .mobile-nav.expanded + .nav-curtain {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* mav menus */
+.header-mobile .mobile-nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 1.5rem;
+}
+
+.header-mobile .mobile-nav .menu-toggler {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  width: 100%;
+  position: relative;
+  text-align: left;
+  justify-content: left;
+}
+
+.header-mobile .mobile-nav .menu-toggler.toggle-closed {
+  text-align: center;
+  justify-content: center;
+  padding-block: 1.5rem;
+  font-size: 20px;
+  border-bottom: 1px solid silver;
+}
+
+.header-mobile .mobile-nav .menu-toggler + .sub-menu {
+  position: absolute;
+  left: -20.375rem;
+  top: 0;
+  bottom: 0;
+  width: 325px;
+  transition: all .2s ease-out;
+  background-color: var(--background-color);
+  z-index: 10;
+}
+
+.header-mobile .mobile-nav .menu-toggler[aria-expanded="true"] + .sub-menu {
+  left: 0;
+}
+
+.header-mobile .mobile-nav .menu-toggler::after {
+  content: url('/icons/chevron-right.svg');
+  position: absolute;
+  right: 0;
+}
+
+.header-mobile .mobile-nav .menu-toggler.toggle-closed::after {
+  rotate: 180deg;
+  right: unset;
+  left: 0;
+}
+
+.header-mobile .mobile-nav a {
+  text-decoration: none;
+}
+
+.header-mobile .mobile-nav .menu-toggler.sale,
+.header-mobile .mobile-nav a.sale {
+  color: #e01a2b;
 }
 
 .header-mobile .header-upper {
   display: grid;
+  padding-inline: 1rem;
   gap: 1rem;
   grid-template-columns: 24px 141px 1fr;
   grid-template-rows: 40px 40px;

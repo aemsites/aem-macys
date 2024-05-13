@@ -2,6 +2,51 @@ import { loadFragment } from '../fragment/fragment.js';
 import {
   div, nav, button, span, domEl,
 } from '../../scripts/dom-helpers.js';
+import { toClassName } from '../../scripts/aem.js';
+
+function decorateSections(sectionsSection) {
+  sectionsSection.querySelectorAll('ul > li').forEach((li, idx) => {
+    const subList = li.querySelector(':scope > ul');
+    if (subList) {
+      li.classList.add('nav-drop');
+      const subMenu = div({ class: 'sub-menu' }, div({ class: 'mobile-nav-inner' }, subList));
+
+      const buttonText = li.textContent.trim();
+      const menuId = toClassName(`menu-toggle-${buttonText}-${idx}`);
+      const btn = button({
+        class: 'menu-toggler',
+        type: 'button',
+        'aria-controls': menuId,
+        'aria-expanded': 'false',
+      }, buttonText);
+      if (buttonText.toLowerCase().includes('sale')) {
+        btn.classList.add('sale');
+      }
+      li.textContent = '';
+      const closeBtn = btn.cloneNode(true);
+      closeBtn.classList.add('toggle-closed');
+      subMenu.querySelector('.mobile-nav-inner').prepend(closeBtn);
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', !expanded);
+        closeBtn.setAttribute('aria-expanded', !expanded);
+      });
+      closeBtn.addEventListener('click', () => {
+        const expanded = closeBtn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', !expanded);
+        closeBtn.setAttribute('aria-expanded', !expanded);
+      });
+      subMenu.id = menuId;
+
+      li.append(btn, subMenu);
+    } else {
+      const a = li.querySelector('a');
+      if (a && a.textContent.trim().toLowerCase().includes('sale')) {
+        a.classList.add('sale');
+      }
+    }
+  });
+}
 
 function decorateBrand(brandSection) {
   if (!brandSection) return;
@@ -54,8 +99,9 @@ export default async function decorate(block) {
   while (fragment.firstElementChild) headerMain.append(fragment.firstElementChild);
 
   const upper = div({ class: 'header-upper' });
-  const navi = nav({ id: 'mobile-nav', class: 'mobile-nav' });
-  headerMain.append(upper, navi);
+  const navi = nav({ id: 'mobile-nav', class: 'mobile-nav' }, div({ class: 'mobile-nav-inner' }));
+  const navCurtain = div({ class: 'nav-curtain' });
+  headerMain.append(upper, navi, navCurtain);
 
   ['brand', 'tools', 'search'].forEach((sectionName) => {
     const section = headerMain.querySelector(`.section.${sectionName}`);
@@ -69,9 +115,19 @@ export default async function decorate(block) {
       type: 'button',
       'aria-controls': 'mobile-nav',
       'aria-label': 'Open Navigation',
+      'aria-expanded': 'false',
     }, span({ class: 'nav-hamburger-icon' })),
   );
   upper.prepend(hamburger);
+  hamburger.addEventListener('click', () => {
+    const btn = hamburger.querySelector('button');
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    navi.classList.toggle('expanded');
+    btn.setAttribute('aria-expanded', !expanded);
+    btn.setAttribute('aria-label', `${expanded ? 'Open' : 'Close'} Navigation`);
+    document.body.style.overflowY = expanded ? '' : 'hidden';
+  });
+
   decorateBrand(upper.querySelector('.section.brand'));
   decorateTools(upper.querySelector('.section.tools'));
   decorateSearch(upper.querySelector('.section.search'));
@@ -79,9 +135,10 @@ export default async function decorate(block) {
   ['user', 'sections', 'utility'].forEach((sectionName) => {
     const section = headerMain.querySelector(`.section.${sectionName}`);
     if (section) {
-      navi.append(section);
+      navi.querySelector('.mobile-nav-inner').append(section);
     }
   });
+  decorateSections(navi.querySelector('.section.sections'));
 
   block.replaceChildren(headerMain);
 }
