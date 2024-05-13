@@ -58,13 +58,14 @@
   position: relative;
   text-align: left;
   justify-content: left;
+  font-weight: 400;
 }
 
 .header-mobile .mobile-nav .menu-toggler.toggle-closed {
   text-align: center;
   justify-content: center;
   padding-block: 1.5rem;
-  font-size: 20px;
+  font-size: var(--heading-font-size-s);
   border-bottom: 1px solid silver;
 }
 
@@ -97,6 +98,7 @@
 
 .header-mobile .mobile-nav a {
   text-decoration: none;
+  font-weight: 400;
 }
 
 .header-mobile .mobile-nav .menu-toggler.sale,
