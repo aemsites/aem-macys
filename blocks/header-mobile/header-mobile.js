@@ -73,6 +73,7 @@ function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle') {
         type: 'button',
         'aria-controls': menuId,
         'aria-expanded': 'false',
+        'aria-label': `Open ${buttonText} menu`,
       }, buttonText);
 
       if (buttonText.toLowerCase().includes('sale')) {
@@ -80,6 +81,7 @@ function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle') {
       }
 
       const closeBtn = btn.cloneNode(true);
+      closeBtn.setAttribute('aria-label', `Close ${buttonText} menu`);
       closeBtn.classList.add('toggle-closed');
       if (li.querySelector('.icon')) {
         btn.prepend(li.querySelector('.icon'));
@@ -193,7 +195,21 @@ export default async function decorate(block) {
   while (fragment.firstElementChild) headerMain.append(fragment.firstElementChild);
 
   const upper = div({ class: 'header-upper' });
-  const navi = nav({ id: 'mobile-nav', class: 'mobile-nav' }, div({ class: 'mobile-nav-inner' }), button({ class: 'mobile-nav-close', 'aria-label': 'Close Navigation', type: 'button' }));
+  const navi = nav(
+    {
+      id: 'mobile-nav',
+      class: 'mobile-nav',
+    },
+    div({ class: 'mobile-nav-inner' }),
+    button(
+      {
+        class: 'mobile-nav-close',
+        'aria-label': 'Close Navigation',
+        'aria-controls': 'mobile-nav',
+        type: 'button',
+      },
+    ),
+  );
   const navCurtain = div({ class: 'nav-curtain' });
   headerMain.append(upper, navi, navCurtain);
 
