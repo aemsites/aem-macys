@@ -59,7 +59,7 @@
 .header-desktop .menu-toggler[aria-expanded="true"]::after {
   rotate: -90deg;
 }
- 
+
 .header-desktop .nav-drop .sub-menu {
   display: none;
   position: absolute;
@@ -70,7 +70,7 @@
   border-radius: 0 0 8px 8px;
 }
 
-.header-desktop .sub-menu.expanded {
+.header-desktop .nav-drop.active .sub-menu {
   display: block;
 }
 
@@ -147,11 +147,24 @@
   grid-column: 1 / -1;
 }
 
-.header-desktop .desktop-nav .section.sections ul {
-  padding-block: 1rem;
+.header-desktop .desktop-nav .section.sections .primary-nav-list {
   flex-direction: row;
   gap: unset;
   justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
+
+.header-desktop .desktop-nav .section.sections .nav-drop {
+  padding-block: 1rem;
+}
+
+.header-desktop .desktop-nav .section.sections .nav-menu-inner > ul {
+  padding: 0;
+}
+
+.header-desktop .desktop-nav .section.sections a:hover {
+  text-decoration: underline;
 }
 
 .header-desktop .desktop-nav .section.sections * {
@@ -161,6 +174,12 @@
 .header-desktop .desktop-nav .section.sections .nav-drop-header a {
   font-weight: 700;
   line-height: 20px;
+}
+
+.header-desktop .desktop-nav .section.sections .nav-drop.active .nav-drop-header a {
+  text-decoration: underline;
+  text-underline-offset: 1rem;
+  text-decoration-thickness: 3px;
 }
 
 .header-desktop .desktop-nav .section.sections .sub-menu {
