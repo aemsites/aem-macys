@@ -9,6 +9,7 @@ import {
   loadBlocks,
   loadCSS,
   buildBlock,
+  decorateBlock,
   loadScript,
 } from './aem.js';
 import { wrapImgsInLinks } from './utils.js';
@@ -129,6 +130,7 @@ function buildFragmentBlocks(container) {
       a.before(fragment);
       a.remove();
     }
+    decorateBlock(fragment);
   });
 }
 

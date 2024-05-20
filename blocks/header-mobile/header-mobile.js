@@ -4,7 +4,7 @@ import {
 } from '../../scripts/dom-helpers.js';
 import { toClassName } from '../../scripts/aem.js';
 
-function toggleTabState(menu, expanded) {
+export function toggleTabState(menu, expanded) {
   menu.querySelectorAll('button, a').forEach((el) => {
     const inSubMenu = el.closest('.sub-menu');
     if (inSubMenu && inSubMenu !== menu) {
@@ -22,14 +22,14 @@ function toggleTabState(menu, expanded) {
 function toggleSubMenu(navDrop, subMenu, forceExpanded = null) {
   const btn = navDrop.querySelector(`button[aria-controls="${subMenu.id}"]`);
   const closeBtn = subMenu.querySelector(`button[aria-controls="${subMenu.id}"]`);
-  const expanded = forceExpanded || btn.getAttribute('aria-expanded') === 'true';
+  const expanded = forceExpanded !== null ? forceExpanded : btn.getAttribute('aria-expanded') === 'true';
   btn.setAttribute('aria-expanded', !expanded);
-  if (closeBtn) closeBtn.setAttribute('aria-expanded', !expanded);
+  closeBtn.setAttribute('aria-expanded', !expanded);
 
   toggleTabState(subMenu, expanded);
 
   if (!expanded) {
-    if (closeBtn) closeBtn.focus();
+    closeBtn.focus();
   } else {
     btn.focus();
   }
@@ -38,7 +38,7 @@ function toggleSubMenu(navDrop, subMenu, forceExpanded = null) {
 function toggleMenu(headerEl, forceExpanded = null) {
   const navEl = headerEl.querySelector('#mobile-nav');
   const btn = headerEl.querySelector('button[aria-controls="mobile-nav"]');
-  const expanded = forceExpanded || btn.getAttribute('aria-expanded') === 'true';
+  const expanded = forceExpanded !== null ? forceExpanded : btn.getAttribute('aria-expanded') === 'true';
   if (expanded) {
     navEl.classList.remove('expanded');
     // close all subMenus
@@ -55,7 +55,7 @@ function toggleMenu(headerEl, forceExpanded = null) {
   document.body.style.overflowY = expanded ? '' : 'hidden';
 }
 
-export function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle') {
+export function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle', toggleFunc = toggleSubMenu) {
   if (!sectionEl) return;
 
   const ul = sectionEl.querySelector('ul');
@@ -91,18 +91,18 @@ export function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-tog
       subMenu.querySelector('.nav-menu-inner').prepend(closeBtn);
 
       btn.addEventListener('click', () => {
-        toggleSubMenu(li, subMenu);
+        toggleFunc(li, subMenu);
       });
 
       closeBtn.addEventListener('click', () => {
-        toggleSubMenu(li, subMenu);
+        toggleFunc(li, subMenu);
       });
       li.append(btn, subMenu);
 
       if (recurse) {
         decorateNavDrops(subMenu, recurse, `${idPrefix}-${buttonText}`);
       }
-      toggleSubMenu(li, subMenu, true);
+      toggleFunc(li, subMenu, true);
     } else {
       const a = li.querySelector('a');
       if (a && a.textContent.trim().toLowerCase().includes('sale')) {

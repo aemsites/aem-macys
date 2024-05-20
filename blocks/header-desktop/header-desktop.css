@@ -10,10 +10,11 @@
 
 .header-desktop .header-upper,
 .header-desktop .desktop-nav {
-  padding-inline: 1rem;
+  padding-inline: 1.25rem;
   border-bottom: 1px solid #d6d6d6;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .header-desktop .header-upper {
@@ -58,6 +59,20 @@
 .header-desktop .menu-toggler[aria-expanded="true"]::after {
   rotate: -90deg;
 }
+ 
+.header-desktop .nav-drop .sub-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 1px);
+  background: var(--background-color);
+  z-index: 10;
+  overflow: clip;
+  border-radius: 0 0 8px 8px;
+}
+
+.header-desktop .sub-menu.expanded {
+  display: block;
+}
 
 /* utility */
 .header-desktop .section.utility .utility-nav-list {
@@ -69,31 +84,34 @@
   gap: 2rem;
 }
 
-.header-desktop .section.utility .utility-nav-list > li {
-  position: relative;
-}
-
 .header-desktop .section.utility .utility-nav-list > li:not(:last-child)::after {
   content: "";
-  display: block;
+  display: inline-block;
   width: 1px;
   height: 16px;
   background-color: #d6d6d6;
   pointer-events: none;
-  position: absolute;
+  position: relative;
   right: -16px;
-  top: 50%;
-  transform: translate(50%,-50%);
-  
+  top: 0;
+  bottom: 0;  
 }
 
 .header-desktop .section.utility .utility-nav-list .icon-user {
   --icon-size: 16px;
 }
 
-.header-desktop .menu-toggler + .sub-menu,
-.header-desktop .nav-drop-header + .sub-menu {
-  display: none;
+.header-desktop .section.utility .sub-menu {
+  width: 250px;
+}
+
+.header-desktop .section.utility .util-sub-menu,
+.header-desktop .section.utility .util-sub-menu + ul {
+  padding-inline: 2rem;
+}
+
+.header-desktop .section.utility .util-sub-menu + ul {
+  background-color: #f8f8f8;
 }
 
 /* nav */
@@ -140,7 +158,35 @@
   line-height: 20px;
 }
 
-.header-desktop .desktop-nav .section.sections a {
+.header-desktop .desktop-nav .section.sections .nav-drop-header a {
   font-weight: 700;
   line-height: 20px;
+}
+
+.header-desktop .desktop-nav .section.sections .sub-menu {
+  left: 0;
+  right: 0;
+  top: 100%;
+}
+
+.header-desktop .desktop-nav .section.sections .sub-menu .nav-menu-inner > ul .fragment-wrapper {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  width: 100%;
+  padding: 2rem 3.375rem;
+  gap: 3rem;
+}
+
+.header-desktop .desktop-nav .section.sections .sub-menu .nav-menu-inner .fragment-wrapper ul {
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header-desktop .nav-curtain.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.header-desktop .nav-curtain.upper {
+  top: 42px;
 }
