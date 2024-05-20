@@ -20,16 +20,16 @@ function toggleTabState(menu, expanded) {
 }
 
 function toggleSubMenu(navDrop, subMenu, forceExpanded = null) {
-  const btn = navDrop.querySelector(`:scope > button[aria-controls="${subMenu.id}"]`);
+  const btn = navDrop.querySelector(`button[aria-controls="${subMenu.id}"]`);
   const closeBtn = subMenu.querySelector(`button[aria-controls="${subMenu.id}"]`);
   const expanded = forceExpanded || btn.getAttribute('aria-expanded') === 'true';
   btn.setAttribute('aria-expanded', !expanded);
-  closeBtn.setAttribute('aria-expanded', !expanded);
+  if (closeBtn) closeBtn.setAttribute('aria-expanded', !expanded);
 
   toggleTabState(subMenu, expanded);
 
   if (!expanded) {
-    closeBtn.focus();
+    if (closeBtn) closeBtn.focus();
   } else {
     btn.focus();
   }
@@ -55,7 +55,7 @@ function toggleMenu(headerEl, forceExpanded = null) {
   document.body.style.overflowY = expanded ? '' : 'hidden';
 }
 
-function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle') {
+export function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle') {
   if (!sectionEl) return;
 
   const ul = sectionEl.querySelector('ul');
@@ -63,7 +63,7 @@ function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle') {
     const subList = li.querySelector(':scope > ul');
     if (subList) {
       li.classList.add('nav-drop');
-      const subMenu = div({ class: 'sub-menu' }, div({ class: 'mobile-nav-inner' }, subList));
+      const subMenu = div({ class: 'sub-menu' }, div({ class: 'nav-menu-inner' }, subList));
 
       const buttonText = li.textContent.trim();
       const menuId = toClassName(`${idPrefix}-${buttonText}-${idx}`);
@@ -74,7 +74,8 @@ function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle') {
         'aria-controls': menuId,
         'aria-expanded': 'false',
         'aria-label': `Open ${buttonText} menu`,
-      }, buttonText);
+      });
+      btn.innerHTML = li.innerHTML;
 
       if (buttonText.toLowerCase().includes('sale')) {
         btn.classList.add('sale');
@@ -83,11 +84,11 @@ function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-toggle') {
       const closeBtn = btn.cloneNode(true);
       closeBtn.setAttribute('aria-label', `Close ${buttonText} menu`);
       closeBtn.classList.add('toggle-closed');
-      if (li.querySelector('.icon')) {
-        btn.prepend(li.querySelector('.icon'));
+      if (closeBtn.querySelector('.icon')) {
+        closeBtn.querySelector('.icon').remove();
       }
       li.textContent = '';
-      subMenu.querySelector('.mobile-nav-inner').prepend(closeBtn);
+      subMenu.querySelector('.nav-menu-inner').prepend(closeBtn);
 
       btn.addEventListener('click', () => {
         toggleSubMenu(li, subMenu);
@@ -127,7 +128,7 @@ function decorateUtilityNav(utilitySection) {
 
   decorateNavDrops(utilitySection, false, 'utility-menu-toggle');
 
-  utilitySection.querySelectorAll('.sub-menu .mobile-nav-inner > ul > li').forEach((li) => {
+  utilitySection.querySelectorAll('.sub-menu .nav-menu-inner > ul > li').forEach((li) => {
     const subList = li.querySelector(':scope > ul');
     if (subList) {
       const el = div({ class: 'util-sub-menu' }, subList);
@@ -136,11 +137,12 @@ function decorateUtilityNav(utilitySection) {
         el.prepend(par);
       }
       li.parentElement.before(el);
+      li.remove();
     }
   });
 }
 
-function decorateBrand(brandSection) {
+export function decorateBrand(brandSection) {
   if (!brandSection) return;
 
   const btnCont = brandSection.querySelector('.button-container');
@@ -150,7 +152,7 @@ function decorateBrand(brandSection) {
   btn.classList.remove('button');
 }
 
-function decorateSearch(searchSection) {
+export function decorateSearch(searchSection) {
   if (!searchSection) return;
 
   const icon = searchSection.querySelector('.icon');
@@ -198,9 +200,9 @@ export default async function decorate(block) {
   const navi = nav(
     {
       id: 'mobile-nav',
-      class: 'mobile-nav',
+      class: 'nav mobile-nav',
     },
-    div({ class: 'mobile-nav-inner' }),
+    div({ class: 'nav-menu-inner' }),
     button(
       {
         class: 'mobile-nav-close',
@@ -246,7 +248,7 @@ export default async function decorate(block) {
   ['user', 'sections', 'utility'].forEach((sectionName) => {
     const section = headerMain.querySelector(`.section.${sectionName}`);
     if (section) {
-      navi.querySelector('.mobile-nav-inner').append(section);
+      navi.querySelector('.nav-menu-inner').append(section);
     }
   });
 

@@ -57,6 +57,12 @@
   --max-content-width: 1480px;
 }
 
+@media (width >= 900px) {
+  :root {
+    --nav-height: 160px;
+  }
+}
+
 @font-face {
   font-family: "Macys Sans-fallback";
   size-adjust: 100.06%;

@@ -1,0 +1,61 @@
+.shared-header .icon.icon-logo {
+  --icon-size: 40px;
+  
+  width: 141px;
+}
+
+.shared-header .icon.icon-my-bag {
+  --icon-size: 28px;
+}
+
+.shared-header .nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 1.5rem;
+}
+
+.shared-header .icon {
+  margin-inline-end: 1rem;
+}
+
+.shared-header .nav a {
+  text-decoration: none;
+  font-weight: 400;
+  display: inline-flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.shared-header .nav .menu-toggler.sale,
+.shared-header .nav a.sale {
+  color: var(--color-macys-red);
+}
+
+.shared-header .section.search {
+  justify-self: center;
+  width: 100%;
+}
+
+.shared-header .section.search .search-input-container {
+  background-color: #f1f1f1;
+  border-color: transparent;
+  border-radius: 3.9375rem;
+  height: 2.5rem;
+  padding: .625rem .75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shared-header .section.search .search-input {
+  flex-grow: 1;
+  height: 2.5rem;
+  background-color: transparent;
+  border-color: transparent;
+  font-size: 1rem;
+  line-height: 1.375rem;
+}
