@@ -95,7 +95,9 @@ function decorateHeaderNavDrops(sectionEl, recurse = false, idPrefix = 'menu-tog
 function decorateSections(section) {
   decorateHeaderNavDrops(section);
   section.querySelectorAll('.sub-menu').forEach((subMenu) => {
-    subMenu.dataset.status = 'initialized';
+    if (subMenu.querySelector('a[href*="/nav-menus/"]')) {
+      subMenu.dataset.status = 'initialized';
+    }
   });
 
   const primaryList = section.querySelector('ul');
