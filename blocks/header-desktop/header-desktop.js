@@ -5,8 +5,29 @@ import {
 import {
   decorateBrand, decorateNavDrops, decorateSearch, toggleTabState,
 } from '../header-mobile/header-mobile.js';
+import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
 
 function toggleDesktopSubMenu(navDrop, subMenu, forceExpanded = null) {
+  if (subMenu.dataset.status === 'initialized') {
+    subMenu.dataset.status = 'loading';
+    subMenu.style.display = 'none';
+    const fragmentLink = subMenu.querySelector('a');
+    const parent = fragmentLink.parentNode;
+    const fragment = buildBlock('fragment', [[fragmentLink.cloneNode(true)]]);
+    if (parent.tagName === 'P') {
+      parent.before(fragment);
+      parent.remove();
+    } else {
+      fragmentLink.before(fragment);
+      fragmentLink.remove();
+    }
+    decorateBlock(fragment);
+    loadBlock(fragment).then(() => {
+      subMenu.dataset.status = 'loaded';
+      subMenu.style.display = null;
+    });
+  }
+
   const btn = navDrop.querySelector(`button[aria-controls="${subMenu.id}"]`);
   const expanded = forceExpanded !== null ? forceExpanded : btn.getAttribute('aria-expanded') === 'true';
   const header = navDrop.closest('.header-desktop');
@@ -73,6 +94,9 @@ function decorateHeaderNavDrops(sectionEl, recurse = false, idPrefix = 'menu-tog
 
 function decorateSections(section) {
   decorateHeaderNavDrops(section);
+  section.querySelectorAll('.sub-menu').forEach((subMenu) => {
+    subMenu.dataset.status = 'initialized';
+  });
 
   const primaryList = section.querySelector('ul');
   primaryList.classList.add('primary-nav-list');
