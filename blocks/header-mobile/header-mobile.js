@@ -20,6 +20,27 @@ export function toggleTabState(menu, expanded) {
 }
 
 function toggleSubMenu(navDrop, subMenu, forceExpanded = null) {
+  if (subMenu.dataset.status === 'initialized') {
+    subMenu.dataset.status = 'loading';
+    subMenu.querySelector('.nav-menu-inner').style.display = 'none';
+    const loader = async () => {
+      const fragmentLink = subMenu.querySelector('a');
+      const resp = await fetch(fragmentLink.href);
+      if (resp.ok) {
+        const html = await resp.text();
+        const dp = new DOMParser();
+        const doc = dp.parseFromString(html, 'text/html');
+        const topList = doc.querySelector('ul');
+        fragmentLink.closest('ul').replaceWith(topList);
+        // eslint-disable-next-line no-use-before-define
+        decorateNavDrops(subMenu);
+      }
+      subMenu.dataset.status = 'loaded';
+      subMenu.querySelector('.nav-menu-inner').style.display = null;
+    };
+    loader();
+  }
+
   const btn = navDrop.querySelector(`button[aria-controls="${subMenu.id}"]`);
   const closeBtn = subMenu.querySelector(`button[aria-controls="${subMenu.id}"]`);
   const expanded = forceExpanded !== null ? forceExpanded : btn.getAttribute('aria-expanded') === 'true';
@@ -108,6 +129,17 @@ export function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-tog
       if (a && a.textContent.trim().toLowerCase().includes('sale')) {
         a.classList.add('sale');
       }
+    }
+  });
+}
+
+function decorateNavSection(navSection) {
+  if (!navSection) return;
+
+  decorateNavDrops(navSection);
+  navSection.querySelectorAll('.sub-menu').forEach((subMenu) => {
+    if (subMenu.querySelector('a[href*="/nav-menus/"]')) {
+      subMenu.dataset.status = 'initialized';
     }
   });
 }
@@ -252,7 +284,7 @@ export default async function decorate(block) {
     }
   });
 
-  decorateNavDrops(navi.querySelector('.section.sections'));
+  decorateNavSection(navi.querySelector('.section.sections'));
   decorateUserNav(navi.querySelector('.section.user'));
   decorateUtilityNav(navi.querySelector('.section.utility'));
 
