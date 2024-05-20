@@ -134,6 +134,7 @@
   justify-self: flex-end;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .header-desktop .section.tools ul {
   flex-direction: row;
   justify-content: center;
