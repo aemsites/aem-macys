@@ -85,6 +85,10 @@ function decorateHeaderNavDrops(sectionEl, recurse = false, idPrefix = 'menu-tog
       toggler.before(dropHeader);
       dropHeader.append(navLink, toggler);
       toggler.textContent = '';
+      if (toggler.classList.contains('sale')) {
+        navLink.classList.add('sale');
+        toggler.classList.remove('sale');
+      }
 
       let overFired;
       navDrop.addEventListener('mouseover', () => {
