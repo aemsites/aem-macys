@@ -88,7 +88,6 @@ async function spriteIcon(icon) {
  * @param {string} [prefix] prefix for icon names
  */
 export function spriteIcons(element) {
-  decorateIcons(element);
   const icons = [...element.querySelectorAll('span.icon')];
   icons.forEach((span) => {
     const img = span.querySelector('img');
@@ -170,6 +169,10 @@ function decorateLinks(element) {
     a.title = trimAllWhitespace(a.title || a.textContent);
     if (!a.title || trimAllWhitespace(a.title).length === 0) {
       a.removeAttribute('title');
+      if (a.querySelector('.icon [data-icon-name]')) {
+        const { iconName } = a.querySelector('.icon [data-icon-name]').dataset;
+        a.title = iconName;
+      }
     }
   });
 }
@@ -183,6 +186,7 @@ export function decorateMain(main) {
   decorateSections(main);
   buildAutoBlocks(main);
   decorateBlocks(main);
+  decorateIcons(main);
   decorateLinks(main);
   wrapImgsInLinks(main);
   decorateButtons(main);

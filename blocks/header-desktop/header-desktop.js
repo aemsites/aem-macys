@@ -3,7 +3,7 @@ import {
   div, nav, p,
 } from '../../scripts/dom-helpers.js';
 import {
-  decorateBrand, decorateNavDrops, decorateSearch, toggleTabState,
+  decorateNavDrops, decorateSearch, toggleTabState,
 } from '../header-mobile/header-mobile.js';
 import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
 
@@ -180,7 +180,7 @@ export default async function decorate(block) {
       navi.querySelector('.header-width-container').append(section);
     }
   });
-  decorateBrand(navi.querySelector('.section.brand'));
+
   decorateSearch(navi.querySelector('.section.search'));
   decorateNavSections(navi.querySelector('.section.sections'));
 

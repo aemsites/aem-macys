@@ -177,11 +177,11 @@ function decorateUtilityNav(utilitySection) {
 export function decorateBrand(brandSection) {
   if (!brandSection) return;
 
-  const btnCont = brandSection.querySelector('.button-container');
-  const btn = btnCont.querySelector('.button');
-  btnCont.before(btn);
-  btnCont.remove();
-  btn.classList.remove('button');
+  // const btnCont = brandSection.querySelector('.button-container');
+  // const btn = btnCont.querySelector('.button');
+  // btnCont.before(btn);
+  // btnCont.remove();
+  // btn.classList.remove('button');
 }
 
 export function decorateSearch(searchSection) {
