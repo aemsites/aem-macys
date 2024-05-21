@@ -96,6 +96,7 @@ function decorateHeaderNavDrops(sectionEl, recurse = false, idPrefix = 'menu-tog
       let overFired = false;
       let outFired = false;
       navDrop.addEventListener('mouseover', () => {
+        loadMenuContent(navDrop.querySelector('.sub-menu'));
         overFired = true;
         outFired = false;
         setTimeout(() => {
