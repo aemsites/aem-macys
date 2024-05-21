@@ -6,6 +6,7 @@
 
 .header-desktop {
   display: grid;
+  font-size: 12px;
 }
 
 .header-desktop .header-upper,
@@ -18,7 +19,6 @@
 }
 
 .header-desktop .header-upper {
-  font-size: 12px;
   height: 42px;
 }
 
@@ -156,10 +156,6 @@
   padding: 0;
 }
 
-.header-desktop .desktop-nav .section.sections .nav-drop {
-  padding-block: 1rem;
-}
-
 .header-desktop .desktop-nav .section.sections .nav-menu-inner > ul {
   padding: 0;
 }
@@ -172,21 +168,42 @@
   line-height: 20px;
 }
 
-.header-desktop .desktop-nav .section.sections .nav-drop-header a {
-  font-weight: 700;
-  line-height: 20px;
+.header-desktop .desktop-nav .section.sections .nav-drop-header {
+  position: relative;
+  padding-block: 1rem 14px;
 }
 
-.header-desktop .desktop-nav .section.sections .nav-drop.active .nav-drop-header a {
-  text-decoration: underline;
-  text-underline-offset: 1rem;
-  text-decoration-thickness: 3px;
+.header-desktop .desktop-nav .section.sections .nav-drop-header a {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  text-decoration: none;
+}
+
+.header-desktop .desktop-nav .section.sections .nav-drop-header .menu-toggler {
+  position: absolute;
+  bottom: 0;
+  height: 14px;
+  width: 14px;
+  opacity: 0;
+}
+
+.header-desktop .desktop-nav .section.sections .nav-drop-header .menu-toggler:focus {
+  opacity: 1;
+}
+
+.header-desktop .desktop-nav .section.sections .nav-drop-header .menu-toggler::after {
+  height: 14px;
+  width: 14px;
+}
+
+.header-desktop .desktop-nav .section.sections .nav-drop.active .nav-drop-header {
+  border-bottom: 2px solid black;
 }
 
 .header-desktop .desktop-nav .section.sections .sub-menu {
   left: 0;
   right: 0;
-  top: 100%;
 }
 
 .header-desktop .desktop-nav .section.sections .sub-menu .nav-menu-inner > ul .fragment-wrapper {
@@ -200,6 +217,7 @@
 .header-desktop .desktop-nav .section.sections .sub-menu .nav-menu-inner .fragment-wrapper ul {
   flex-direction: column;
   gap: 12px;
+  padding-block: 12px;
 }
 
 .header-desktop .nav-curtain.show {
