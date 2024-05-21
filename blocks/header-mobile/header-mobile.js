@@ -133,7 +133,7 @@ export function decorateNavDrops(sectionEl, recurse = true, idPrefix = 'menu-tog
   });
 }
 
-function decorateNavSection(navSection) {
+function decorateNavSections(navSection) {
   if (!navSection) return;
 
   decorateNavDrops(navSection);
@@ -284,7 +284,7 @@ export default async function decorate(block) {
     }
   });
 
-  decorateNavSection(navi.querySelector('.section.sections'));
+  decorateNavSections(navi.querySelector('.section.sections'));
   decorateUserNav(navi.querySelector('.section.user'));
   decorateUtilityNav(navi.querySelector('.section.utility'));
 

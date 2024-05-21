@@ -92,7 +92,7 @@
   z-index: 1;
 }
 
-.carousel:not(:has(.carousel-slide[data-fully-shown="false"])) .carousel-navigation-buttons {
+.carousel.no-scroll .carousel-navigation-buttons {
   display: none;
 }
 

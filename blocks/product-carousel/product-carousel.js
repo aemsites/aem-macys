@@ -33,29 +33,33 @@ async function loadSlide(slide) {
     `;
     const productPricing = document.createElement('div');
     productPricing.className = 'product-pricing';
-    product.pricing.price.tieredPrice.forEach((price) => {
-      const { label, values } = price;
-      const formattedLabel = label.replace('[PRICE]', values[0].formattedValue);
-      const priceHolder = document.createElement('div');
-      priceHolder.className = 'price-holder';
-      priceHolder.innerHTML = `<p class="price tiered-price price-${toClassName(values[0].type)}">${formattedLabel}</p>`;
-      productPricing.append(priceHolder);
-    });
-    if (product.pricing.price.finalPrice) {
-      const priceHolder = document.createElement('div');
-      priceHolder.className = 'price-holder';
-      priceHolder.innerHTML = `<p class="price price-final">${product.pricing.price.finalPrice.formattedFinalPrice}</p>`;
-      if (product.pricing.price.finalPrice.applicablePromotions) {
-        product.pricing.price.finalPrice.applicablePromotions.forEach((promoCode) => {
-          const { header } = product.pricing.badgesMap[promoCode];
-          const priceHeader = document.createElement('p');
-          priceHeader.className = 'price-header';
-          priceHeader.textContent = header;
-          priceHolder.prepend(priceHeader);
-        });
+    if (product.pricing) {
+      product.pricing.price.tieredPrice.forEach((price) => {
+        const { label, values } = price;
+        const formattedLabel = label.replace('[PRICE]', values[0].formattedValue);
+        const priceHolder = document.createElement('div');
+        priceHolder.className = 'price-holder';
+        priceHolder.innerHTML = `<p class="price tiered-price price-${toClassName(values[0].type)}">${formattedLabel}</p>`;
+        productPricing.append(priceHolder);
+      });
+
+      if (product.pricing.price.finalPrice) {
+        const priceHolder = document.createElement('div');
+        priceHolder.className = 'price-holder';
+        priceHolder.innerHTML = `<p class="price price-final">${product.pricing.price.finalPrice.formattedFinalPrice}</p>`;
+        if (product.pricing.price.finalPrice.applicablePromotions) {
+          product.pricing.price.finalPrice.applicablePromotions.forEach((promoCode) => {
+            const { header } = product.pricing.badgesMap[promoCode];
+            const priceHeader = document.createElement('p');
+            priceHeader.className = 'price-header';
+            priceHeader.textContent = header;
+            priceHolder.prepend(priceHeader);
+          });
+        }
+        productPricing.append(priceHolder);
       }
-      productPricing.append(priceHolder);
     }
+
     contentCol.append(productPricing);
 
     if (product.detail.reviewStatistics.aggregate) {

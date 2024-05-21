@@ -71,12 +71,25 @@ function bindEvents(block) {
         entry.target.dataset.fullyHidden = true;
       }
 
-      if (entry.intersectionRatio === 1) {
+      // if not fully intersecting, but completely in view in the x direction, but not y
+      // then it's still fully shown for our purposes (scrolling the carousel)
+      if (entry.intersectionRatio === 1
+        || (entry.intersectionRatio > 0
+          && entry.boundingClientRect.left === entry.intersectionRect.left
+          && entry.boundingClientRect.right === entry.intersectionRect.right)) {
         entry.target.dataset.fullyShown = true;
       } else {
         entry.target.dataset.fullyShown = false;
       }
     });
+
+    const hasNotFullyShown = [...block.querySelectorAll('.carousel-slide')]
+      .some((slide) => slide.dataset.fullyShown === 'false');
+    if (hasNotFullyShown) {
+      block.classList.remove('no-scroll');
+    } else {
+      block.classList.add('no-scroll');
+    }
   }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
   block.querySelectorAll('.carousel-slide').forEach((slide) => {
     slideObserver.observe(slide);

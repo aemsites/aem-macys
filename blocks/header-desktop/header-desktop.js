@@ -92,15 +92,17 @@ function decorateHeaderNavDrops(sectionEl, recurse = false, idPrefix = 'menu-tog
   });
 }
 
-function decorateSections(section) {
-  decorateHeaderNavDrops(section);
-  section.querySelectorAll('.sub-menu').forEach((subMenu) => {
+function decorateNavSections(navSection) {
+  if (!navSection) return;
+
+  decorateHeaderNavDrops(navSection);
+  navSection.querySelectorAll('.sub-menu').forEach((subMenu) => {
     if (subMenu.querySelector('a[href*="/nav-menus/"]')) {
       subMenu.dataset.status = 'initialized';
     }
   });
 
-  const primaryList = section.querySelector('ul');
+  const primaryList = navSection.querySelector('ul');
   primaryList.classList.add('primary-nav-list');
 }
 
@@ -167,7 +169,7 @@ export default async function decorate(block) {
   });
   decorateBrand(navi.querySelector('.section.brand'));
   decorateSearch(navi.querySelector('.section.search'));
-  decorateSections(navi.querySelector('.section.sections'));
+  decorateNavSections(navi.querySelector('.section.sections'));
 
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape') {
