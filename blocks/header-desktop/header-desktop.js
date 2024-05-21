@@ -7,7 +7,7 @@ import {
 } from '../header-mobile/header-mobile.js';
 import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
 
-function toggleDesktopSubMenu(navDrop, subMenu, forceExpanded = null) {
+async function loadMenuContent(subMenu) {
   if (subMenu.dataset.status === 'initialized') {
     subMenu.dataset.status = 'loading';
     subMenu.style.display = 'none';
@@ -22,17 +22,20 @@ function toggleDesktopSubMenu(navDrop, subMenu, forceExpanded = null) {
       fragmentLink.remove();
     }
     decorateBlock(fragment);
-    loadBlock(fragment).then(() => {
-      subMenu.querySelectorAll('.fragment-wrapper .section > div > ul > li').forEach((li) => {
-        const subList = li.querySelector('ul');
-        if (!subList && li.querySelector('a')) {
-          li.querySelector('a').classList.add('sale');
-        }
-      });
-      subMenu.dataset.status = 'loaded';
-      subMenu.style.display = null;
+    await loadBlock(fragment);
+
+    subMenu.querySelectorAll('.fragment-wrapper .section > div > ul > li').forEach((li) => {
+      const subList = li.querySelector('ul');
+      if (!subList && li.querySelector('a')) {
+        li.querySelector('a').classList.add('sale');
+      }
     });
+    subMenu.dataset.status = 'loaded';
+    subMenu.style.display = null;
   }
+}
+function toggleDesktopSubMenu(navDrop, subMenu, forceExpanded = null) {
+  loadMenuContent(subMenu);
 
   const btn = navDrop.querySelector(`button[aria-controls="${subMenu.id}"]`);
   const expanded = forceExpanded !== null ? forceExpanded : btn.getAttribute('aria-expanded') === 'true';
@@ -90,18 +93,25 @@ function decorateHeaderNavDrops(sectionEl, recurse = false, idPrefix = 'menu-tog
         toggler.classList.remove('sale');
       }
 
-      let overFired;
+      let overFired = false;
+      let outFired = false;
       navDrop.addEventListener('mouseover', () => {
         overFired = true;
-        toggleDesktopSubMenu(navDrop, navDrop.querySelector('.sub-menu'), false);
+        outFired = false;
+        setTimeout(() => {
+          if (!outFired) {
+            toggleDesktopSubMenu(navDrop, navDrop.querySelector('.sub-menu'), false);
+          }
+        }, 300);
       });
-      navDrop.addEventListener('mouseout', () => {
+      navDrop.addEventListener('mouseleave', () => {
         overFired = false;
+        outFired = true;
         setTimeout(() => {
           if (!overFired) {
             toggleDesktopSubMenu(navDrop, navDrop.querySelector('.sub-menu'), true);
           }
-        }, 500);
+        }, 300);
       });
     }
   });

@@ -171,6 +171,7 @@
 .header-desktop .desktop-nav .section.sections .nav-drop-header {
   position: relative;
   padding-block: 1rem 14px;
+  border-bottom: 2px solid transparent;
 }
 
 .header-desktop .desktop-nav .section.sections .nav-drop-header a {
@@ -197,7 +198,9 @@
   width: 14px;
 }
 
-.header-desktop .desktop-nav .section.sections .nav-drop.active .nav-drop-header {
+.header-desktop .desktop-nav .section.sections .nav-drop.active .nav-drop-header,
+.header-desktop .desktop-nav .section.sections .nav-drop .nav-drop-header:hover,
+.header-desktop .desktop-nav .section.sections .nav-drop .nav-drop-header:focus-within {
   border-bottom: 2px solid black;
 }
 

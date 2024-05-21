@@ -19,27 +19,29 @@ export function toggleTabState(menu, expanded) {
   });
 }
 
-function toggleSubMenu(navDrop, subMenu, forceExpanded = null) {
+async function loadMenuContent(subMenu) {
   if (subMenu.dataset.status === 'initialized') {
     subMenu.dataset.status = 'loading';
     subMenu.querySelector('.nav-menu-inner').style.display = 'none';
-    const loader = async () => {
-      const fragmentLink = subMenu.querySelector('a');
-      const resp = await fetch(fragmentLink.href);
-      if (resp.ok) {
-        const html = await resp.text();
-        const dp = new DOMParser();
-        const doc = dp.parseFromString(html, 'text/html');
-        const topList = doc.querySelector('ul');
-        fragmentLink.closest('ul').replaceWith(topList);
-        // eslint-disable-next-line no-use-before-define
-        decorateNavDrops(subMenu);
-      }
-      subMenu.dataset.status = 'loaded';
-      subMenu.querySelector('.nav-menu-inner').style.display = null;
-    };
-    loader();
+
+    const fragmentLink = subMenu.querySelector('a');
+    const resp = await fetch(fragmentLink.href);
+    if (resp.ok) {
+      const html = await resp.text();
+      const dp = new DOMParser();
+      const doc = dp.parseFromString(html, 'text/html');
+      const topList = doc.querySelector('ul');
+      fragmentLink.closest('ul').replaceWith(topList);
+      // eslint-disable-next-line no-use-before-define
+      decorateNavDrops(subMenu);
+    }
+    subMenu.dataset.status = 'loaded';
+    subMenu.querySelector('.nav-menu-inner').style.display = null;
   }
+}
+
+function toggleSubMenu(navDrop, subMenu, forceExpanded = null) {
+  loadMenuContent(subMenu);
 
   const btn = navDrop.querySelector(`button[aria-controls="${subMenu.id}"]`);
   const closeBtn = subMenu.querySelector(`button[aria-controls="${subMenu.id}"]`);
@@ -140,6 +142,10 @@ function decorateNavSections(navSection) {
   navSection.querySelectorAll('.sub-menu').forEach((subMenu) => {
     if (subMenu.querySelector('a[href*="/nav-menus/"]')) {
       subMenu.dataset.status = 'initialized';
+      const btn = subMenu.parentElement.querySelector('.menu-toggler');
+      btn.addEventListener('mousedown', () => {
+        loadMenuContent(subMenu);
+      }, { once: true });
     }
   });
 }
