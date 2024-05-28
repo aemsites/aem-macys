@@ -219,6 +219,15 @@ function decorateLinks(element) {
   });
 }
 
+export function removeButtons(container) {
+  container.querySelectorAll('.button-container').forEach((btnCon) => {
+    btnCon.classList.remove('button-container');
+    btnCon.querySelectorAll('.button').forEach((btn) => {
+      btn.classList.remove('button');
+    });
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element

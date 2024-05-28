@@ -112,3 +112,52 @@
   transform: translate(-50%, -50%)  rotate(45deg);
   left: calc(50% - 2px);
 }
+
+.carousel.zoom .carousel-slide-image {
+  position: relative;
+  width: 180px;
+  aspect-ratio: 4 / 5;
+}
+
+.carousel.zoom .carousel-slide {
+  flex-basis: 180px;
+  justify-content: flex-start;
+}
+
+@media (width >= 600px) {
+  .carousel.zoom .carousel-slide-image {
+    width: 225px;
+  }
+  
+  .carousel.zoom .carousel-slide {
+    flex-basis: 225px;
+  }
+}
+
+@media (width >= 900px) {
+  .carousel.zoom .carousel-slide-image {
+    width: 250px;
+  }
+  
+  .carousel.zoom .carousel-slide {
+    flex-basis: 250px;
+  }
+}
+
+.carousel.zoom .carousel-slide-image picture {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+}
+
+.carousel.zoom .carousel-slide-image picture > img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  transition: scale .75s;
+}
+
+.carousel.zoom .carousel-slide:hover picture > img,
+.carousel.zoom .carousel-slide:focus-within picture > img {
+  scale: 1.1;
+}

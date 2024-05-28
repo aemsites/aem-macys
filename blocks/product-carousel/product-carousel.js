@@ -4,6 +4,7 @@ import {
   buildBlock,
   toClassName,
 } from '../../scripts/aem.js';
+import { removeButtons } from '../../scripts/scripts.js';
 import { createSlide } from '../carousel/carousel.js';
 
 async function loadSlide(slide) {
@@ -96,12 +97,7 @@ export default async function decorate(block) {
       }
     } else {
       row.className = 'additional-content';
-      row.querySelectorAll('.button-container').forEach((btnCon) => {
-        btnCon.classList.remove('button-container');
-        btnCon.querySelectorAll('.button').forEach((btn) => {
-          btn.classList.remove('button');
-        });
-      });
+      removeButtons(row);
       additionalContent.push(row);
     }
   });

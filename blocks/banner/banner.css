@@ -1,0 +1,41 @@
+.banner > div {
+  display: flex;
+  flex-direction: column;
+  margin-block-end: 2rem;
+}
+
+.banner .banner-content {
+  order: 2;
+  flex: 0 1 25%;
+  padding-inline: 2rem;
+  align-content: center;
+}
+
+.banner .banner-image {
+  order: 1;
+  flex: 1 0 75%;
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.banner .banner-image picture {
+  position: absolute;
+  inset: 0;
+}
+
+.banner .banner-image picture > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media (width >= 900px) {
+  .banner > div {
+    flex-direction: row;
+  }
+
+  .banner .banner-image,
+  .banner .banner-content {
+    order: unset;
+  }
+}

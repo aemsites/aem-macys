@@ -1,4 +1,5 @@
 import { fetchPlaceholders } from '../../scripts/aem.js';
+import { removeButtons } from '../../scripts/scripts.js';
 
 function updateSlideVisibility(slide, visible = true) {
   slide.setAttribute('aria-hidden', !visible);
@@ -103,20 +104,26 @@ export function createSlide(row, slideIndex, carouselId) {
   slide.classList.add('carousel-slide');
 
   const cols = row.querySelectorAll(':scope > div');
+  let cardLink;
   cols.forEach((column, colIdx) => {
     if (colIdx === 0 && column.querySelector('picture')) {
       column.classList.add('carousel-slide-image');
     } else {
       column.classList.add('carousel-slide-content');
-      column.querySelectorAll('.button-container').forEach((btnCon) => {
-        btnCon.classList.remove('button-container');
-        btnCon.querySelectorAll('.button').forEach((btn) => {
-          btn.classList.remove('button');
-        });
-      });
+      cardLink = column.querySelector('a');
+      removeButtons(column);
     }
     slide.append(column);
   });
+
+  if (cardLink) {
+    const cloned = cardLink.cloneNode(false);
+    const imgDiv = slide.querySelector('.carousel-slide-image');
+    if (imgDiv) {
+      cloned.append(imgDiv.querySelector('picture'));
+      imgDiv.append(cloned);
+    }
+  }
 
   const labeledBy = slide.querySelector('h1, h2, h3, h4, h5, h6');
   if (labeledBy) {
