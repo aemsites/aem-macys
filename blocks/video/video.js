@@ -43,18 +43,6 @@ export default async function decorate(block) {
     content.push(col);
   });
 
-  if (block.classList.contains('autoplay')) {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) {
-        observer.disconnect();
-        loadVideo(block.querySelector('.video-video'), true);
-      }
-    });
-    observer.observe(block);
-  } else {
-    loadVideo(block.querySelector('.video-video'), false);
-  }
-
   const overlay = document.createElement('div');
   overlay.className = 'video-content-overlay';
   const overlayLink = block.querySelector('.video-content a');
@@ -63,7 +51,22 @@ export default async function decorate(block) {
     cloned.setAttribute('tabindex', -1);
     overlay.append(cloned);
   }
+  overlay.style.display = 'none';
   content.push(overlay);
+
+  if (block.classList.contains('autoplay')) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        observer.disconnect();
+        loadVideo(block.querySelector('.video-video'), true);
+        overlay.style.display = null;
+      }
+    });
+    observer.observe(block);
+  } else {
+    loadVideo(block.querySelector('.video-video'), false);
+    overlay.style.display = null;
+  }
 
   block.replaceChildren(...content);
 }
