@@ -322,11 +322,8 @@ function loadDelayed() {
 }
 
 async function loadPage() {
-  console.log('eager');
   await loadEager(document);
-  console.log('lazy');
   await loadLazy(document);
-  console.log('delayed');
   loadDelayed();
 }
 

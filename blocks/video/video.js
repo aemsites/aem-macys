@@ -48,25 +48,20 @@ export default async function decorate(block) {
   const overlayLink = block.querySelector('.video-content a');
   if (overlayLink) {
     const cloned = overlayLink.cloneNode(false);
-    cloned.setAttribute('tabindex', -1);
     overlay.append(cloned);
   }
-  overlay.style.display = 'none';
   content.push(overlay);
 
   if (block.classList.contains('autoplay')) {
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((e) => e.isIntersecting)) {
-        console.log('intersects');
         observer.disconnect();
         loadVideo(block.querySelector('.video-video'), true);
-        overlay.style.display = null;
       }
     });
     observer.observe(block);
   } else {
     loadVideo(block.querySelector('.video-video'), false);
-    overlay.style.display = null;
   }
 
   block.replaceChildren(...content);
