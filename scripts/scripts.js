@@ -11,6 +11,8 @@ import {
   buildBlock,
   decorateBlock,
   loadScript,
+  toClassName,
+  getMetadata,
 } from './aem.js';
 import { wrapImgsInLinks } from './utils.js';
 
@@ -118,6 +120,46 @@ async function loadFonts() {
   }
 }
 
+/**
+ * Load a template module for the page
+ * @param {Document} doc the document element
+ */
+async function loadTemplate(doc) {
+  const template = toClassName(getMetadata('template'));
+  if (template) {
+    try {
+      let templateMod;
+      const cssLoaded = new Promise((resolve) => {
+        try {
+          loadCSS(`${window.hlx.codeBasePath}/templates/${template}/${template}.css`);
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(`failed to load styles for ${template}`, error);
+        }
+        resolve();
+      });
+      const jsLoaded = new Promise((resolve) => {
+        (async () => {
+          try {
+            templateMod = await import(`../templates/${template}/${template}.js`);
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log(`failed to load module for ${template}`, error);
+          }
+          resolve();
+        })();
+      });
+      await Promise.all([cssLoaded, jsLoaded]);
+      if (templateMod && templateMod.default) {
+        await templateMod.default(doc);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Template Loading failed.', err);
+    }
+  }
+}
+
 function buildFragmentBlocks(container) {
   container.querySelectorAll('a[href*="/fragments/"]:only-child').forEach((a) => {
     const parent = a.parentNode;
@@ -201,6 +243,7 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  await loadTemplate(doc);
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);

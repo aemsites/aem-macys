@@ -36,6 +36,7 @@
   /* fonts */
   --body-font-family: "Macys Sans", "Macys Sans-fallback", sans-serif;
   --heading-font-family: var(--body-font-family);
+  --fancy-heading-font-family: TT-Ramillas, TT-Ramillas-fallback, sans-serif;
   --fixed-font-family: menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
@@ -103,10 +104,11 @@ h4, h5, h6 {
   margin-top: 1em;
   margin-bottom: .5em;
   scroll-margin: calc(var(--nav-height) + 1em);
+  text-wrap: balance;
 }
 
 h1 {
-  font-family: TT-Ramillas, TT-Ramillas-fallback, sans-serif;
+  font-family: var(--fancy-heading-font-family);
   font-size: var(--heading-font-size-xxl)
 }
 
@@ -215,12 +217,13 @@ img {
 
 /* sections */
 main .section {
-  padding: 64px 16px;
+  padding-block: 64px;
+  padding-inline: 16px;
 }
 
 @media (width >= 600px) {
   main .section {
-    padding: 64px 32px;
+    padding-inline: 32px;
   }
 }
 
