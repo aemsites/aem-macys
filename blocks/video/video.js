@@ -84,10 +84,12 @@ export default async function decorate(block) {
   content.push(overlay);
 
   if (block.classList.contains('autoplay')) {
+    block.classList.add('lazy');
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((e) => e.isIntersecting)) {
         observer.disconnect();
         loadVideo(block.querySelector('.video-video'), true);
+        block.classList.remove('lazy');
       }
     });
     observer.observe(block);
