@@ -1,0 +1,54 @@
+.video {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.video .video-video {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.video .video-video video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.video .video-content-overlay {
+  background-color: rgba(0 0 0 / 15%);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.video .video-content-overlay a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.video .video-content {
+  padding-inline: 2rem;
+  color: var(--background-color);
+  text-align: center;
+  z-index: 2;
+}
+
+.video .video-content h2 {
+  margin-block: 0 .25em;
+  font-family: var(--fancy-heading-font-family);
+  font-size: var(--heading-font-size-xxl);
+}
+
+.video .video-content h2:first-child {
+  font-size: var(--heading-font-size-s);
+}
+
+.video .video-content a {
+  color: var(--background-color);
+}
