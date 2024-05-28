@@ -1,7 +1,3 @@
-main .product-carousel {
-  position: relative;
-}
-
 main .product-carousel .carousel .carousel-navigation-buttons {
   top: 150px;
 }
@@ -31,22 +27,9 @@ main .product-carousel .carousel-slide.loading {
   }
 }
 
-main .product-carousel .carousel-slide .carousel-slide-image {
-  position: relative;
-  height: 300px;
-  width: 240px;
-}
-
 main .product-carousel .carousel-slide .carousel-slide-content {
-  display: block;
-  color: var(--text-color);
-  background-color: var(--background-color);
-  position: static;
-  padding: 0;
-}
-
-main .product-carousel .carousel-slide .carousel-slide-content a:any-link {
-  color: var(--text-color);
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 main .product-carousel .carousel-slide .carousel-slide-content a.product-link,
