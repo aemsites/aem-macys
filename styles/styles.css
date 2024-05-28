@@ -36,7 +36,7 @@
   /* fonts */
   --body-font-family: "Macys Sans", "Macys Sans-fallback", sans-serif;
   --heading-font-family: var(--body-font-family);
-  --fancy-heading-font-family: TT-Ramillas, TT-Ramillas-fallback, sans-serif;
+  --fancy-heading-font-family: tt-ramillas, tt-ramillas-fallback, sans-serif;
   --fixed-font-family: menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
@@ -72,7 +72,7 @@
 }
 
 @font-face {
-  font-family: TT-Ramillas-fallback;
+  font-family: tt-ramillas-fallback;
   size-adjust: 100.06%;
   ascent-override: 95%;
   src: local('Arial');

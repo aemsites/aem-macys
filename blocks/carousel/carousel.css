@@ -20,9 +20,7 @@
 }
 
 .carousel .carousel-slide {
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 200px;
+  flex: 0 0 200px;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;

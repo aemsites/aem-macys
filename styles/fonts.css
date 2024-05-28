@@ -34,7 +34,7 @@
 }
 
 @font-face {
-  font-family: TT-Ramillas;
+  font-family: tt-ramillas;
   font-display: swap;
   src: url('../fonts/TT-Ramillas.woff2') format("woff2");
   font-weight: 400;
