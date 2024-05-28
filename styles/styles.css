@@ -66,8 +66,8 @@
 
 @font-face {
   font-family: "Macys Sans-fallback";
-  size-adjust: 100.06%;
-  ascent-override: 95%;
+  size-adjust: 101%;
+  ascent-override: 94%;
   src: local('Arial');
 }
 
@@ -75,8 +75,6 @@
   font-family: tt-ramillas-fallback;
   src: local('Times New Roman');
   size-adjust: 112%;
-  ascent-override: normal;
-  descent-override: normal;
   line-gap-override: 16%;
 }
 
