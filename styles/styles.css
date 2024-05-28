@@ -92,12 +92,6 @@
   line-gap-override: 16%;
 }
 
-body.fallback {
-  --body-font-family: "Macys Sans-fallback", sans-serif;
-  --heading-font-family: var(--body-font-family);
-  --fancy-heading-font-family: tt-ramillas-fallback, sans-serif;
-}
-
 body {
   font-size: var(--body-font-size-m);
   margin: 0;
@@ -124,6 +118,9 @@ h4, h5, h6 {
   margin-top: 1em;
   margin-bottom: .5em;
   scroll-margin: calc(var(--nav-height) + 1em);
+}
+
+.default-content-wrapper :where(h1, h2, h3, h4, h5, h6) {
   text-wrap: balance;
 }
 

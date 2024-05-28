@@ -6,14 +6,12 @@
 
 .banner .banner-content {
   order: 2;
-  flex: 0 1 25%;
-  padding-inline: 2rem;
+  padding-inline: 1rem;
   align-content: center;
 }
 
 .banner .banner-image {
   order: 1;
-  flex: 1 0 75%;
   position: relative;
   aspect-ratio: 16 / 9;
 }
@@ -29,13 +27,18 @@
   object-fit: cover;
 }
 
-@media (width >= 900px) {
+@media (width >= 600px) {
   .banner > div {
     flex-direction: row;
   }
 
-  .banner .banner-image,
   .banner .banner-content {
     order: unset;
+    flex: 1 1 250px;
+  }
+
+  .banner .banner-image {
+    order: unset;
+    flex: 1 1 700px;
   }
 }
