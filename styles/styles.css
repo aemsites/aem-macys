@@ -73,9 +73,17 @@
 
 @font-face {
   font-family: tt-ramillas-fallback;
-  size-adjust: 100.06%;
-  ascent-override: 95%;
-  src: local('Arial');
+  src: local('Times New Roman');
+  size-adjust: 112%;
+  ascent-override: normal;
+  descent-override: normal;
+  line-gap-override: 16%;
+}
+
+body.fallback {
+  --body-font-family: "Macys Sans-fallback", sans-serif;
+  --heading-font-family: var(--body-font-family);
+  --fancy-heading-font-family: tt-ramillas-fallback, sans-serif;
 }
 
 body {
