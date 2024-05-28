@@ -66,15 +66,29 @@
 
 @font-face {
   font-family: "Macys Sans-fallback";
+  size-adjust: 101%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: "Macys Sans-fallback";
+  font-weight: 500;
   size-adjust: 103%;
   ascent-override: 94%;
   src: local('Arial');
 }
 
 @font-face {
+  font-family: "Macys Sans-fallback";
+  font-weight: 700;
+  size-adjust: 87%;
+  src: local('Arial Black');
+}
+
+@font-face {
   font-family: tt-ramillas-fallback;
   src: local('Times New Roman');
-  size-adjust: 112%;
+  size-adjust: 108%;
   line-gap-override: 16%;
 }
 
