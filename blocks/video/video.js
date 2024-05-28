@@ -57,6 +57,7 @@ export default async function decorate(block) {
   if (block.classList.contains('autoplay')) {
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((e) => e.isIntersecting)) {
+        console.log('intersects');
         observer.disconnect();
         loadVideo(block.querySelector('.video-video'), true);
         overlay.style.display = null;

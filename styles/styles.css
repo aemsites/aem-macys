@@ -216,11 +216,6 @@ a.button.secondary, button.secondary {
   color: #000;
 }
 
-img {
-  width: auto;
-  height: auto;
-}
-
 .icon {
   --icon-size: 24px;
 
