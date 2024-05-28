@@ -3,29 +3,29 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 16px;
+  place-items: center;
 }
 
 .cards > ul > li {
-  border: 1px solid var(--dark-color);
-  background-color: var(--background-color)
+  position: relative;
 }
 
 .cards .cards-card-body {
-  margin: 16px;
+  z-index: 1;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: rgba(0 0 0 / 50%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
-.cards .cards-card-image {
-  line-height: 0;
-}
-
-.cards .cards-card-body > *:first-child {
-  margin-top: 0;
-}
-
-.cards > ul > li img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+.cards .cards-card-body a:any-link {
+  color: var(--background-color);
 }

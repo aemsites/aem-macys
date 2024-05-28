@@ -7,19 +7,18 @@ main .product-carousel .carousel .carousel-navigation-buttons {
 }
 
 main .product-carousel .carousel-slide {
-  flex: 0 0 240px;
+  flex-basis: 240px;
   justify-content: flex-start;
-  width: 240px;
 }
 
 main .product-carousel .carousel-slide.loading {
   animation-duration: 1.8s;
-      animation-fill-mode: forwards;
-      animation-iteration-count: infinite;
-      animation-name: loading;
-      animation-timing-function: linear;
-      background: linear-gradient(to right, #c9c9c9 8%, #a4a4a4 38%, #c9c9c9 54%);
-      background-size: 1000px 640px;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: loading;
+  animation-timing-function: linear;
+  background: linear-gradient(to right, #c9c9c9 8%, #a4a4a4 38%, #c9c9c9 54%);
+  background-size: 1000px 640px;
 }
 
 @keyframes loading {
