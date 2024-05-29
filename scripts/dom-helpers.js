@@ -67,7 +67,6 @@ export function domEl(tag, ...items) {
   return element;
 }
 
-
 /*
   More short hand functions can be added for very common DOM elements below.
   domEl function from above can be used for one off DOM element occurrences.
