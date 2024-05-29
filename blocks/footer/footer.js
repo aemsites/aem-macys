@@ -35,7 +35,6 @@ function toggleNavButtonAbility(navList, buttonsDisabled) {
   });
 }
 
-
 function decorateNav(navSection) {
   if (!navSection || !navSection.querySelector('ul')) return;
 
