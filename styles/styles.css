@@ -115,8 +115,7 @@ h4, h5, h6 {
   font-family: var(--heading-font-family);
   font-weight: 600;
   line-height: 1.25;
-  margin-block-start: 0em;
-  margin-block-end: 1em;
+  margin-block: .25em .75em;
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
@@ -136,8 +135,7 @@ h5 { font-size: var(--heading-font-size-s) }
 h6 { font-size: var(--heading-font-size-xs) }
 
 p, dl, ol, ul, pre, blockquote {
-  margin-block-start: 0em;
-  margin-block-end: 1em;
+  margin-block: .25em .75em;
 }
 
 code, pre {
