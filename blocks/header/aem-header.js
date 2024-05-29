@@ -132,4 +132,5 @@ export class AEMHeader extends HTMLElement {
   }
 }
 
+
 customElements.define('aem-header', AEMHeader);

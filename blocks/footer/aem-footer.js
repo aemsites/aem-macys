@@ -75,4 +75,5 @@ export class AEMFooter extends HTMLElement {
   }
 }
 
+
 customElements.define('aem-footer', AEMFooter);
