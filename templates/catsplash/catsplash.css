@@ -4,12 +4,7 @@
 }
 
 .catsplash main.grid .section {
-  padding-block-start: 16px;
-  padding-block-end: 0;
-}
-
-.catsplash main.grid .section:last-child {
-  padding-block-end: 16px;
+  padding-block: 16px;
 }
 
 .catsplash main.grid > .section:not(.left-nav) .default-content-wrapper :where(h1, h2, h3, h4, h5, h6) {
@@ -43,10 +38,6 @@
   }
 
   .catsplash main.grid .section {
-    padding-block-start: 32px;
-  }
-
-  .catsplash main.grid .section:last-child {
-    padding-block-end: 32px;
+    padding-block: 32px;
   }
 }

@@ -115,7 +115,7 @@ h4, h5, h6 {
   font-family: var(--heading-font-family);
   font-weight: 600;
   line-height: 1.25;
-  margin-top: 1em;
+  margin-top: .5em;
   margin-bottom: .5em;
   scroll-margin: calc(var(--nav-height) + 1em);
 }
@@ -233,7 +233,7 @@ img {
 
 /* sections */
 main .section {
-  padding-block: 64px;
+  padding-block: 32px;
   padding-inline: 16px;
 }
 
