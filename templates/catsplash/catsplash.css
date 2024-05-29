@@ -20,7 +20,7 @@
 @media (width >= 900px) {
   .catsplash main.grid {
     display: grid;
-    grid-template-columns: 300px auto;
+    grid-template-columns: minmax(250px, 325px) minmax(66%, auto);
     grid-template-rows: var(--row-count, 1);
     gap: 1rem;
   }
