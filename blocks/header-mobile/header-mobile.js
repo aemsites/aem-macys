@@ -200,6 +200,7 @@ export function decorateSearch(searchSection) {
   ));
 }
 
+
 function decorateTools(toolsSection) {
   if (!toolsSection) return;
 
