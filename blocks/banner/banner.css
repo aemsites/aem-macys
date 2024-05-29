@@ -3,10 +3,26 @@
   flex-direction: column;
 }
 
+.banner.full > div {
+  flex-direction: row;
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
 .banner .banner-content {
   order: 2;
   padding: 1rem;
   align-content: center;
+}
+
+.banner.full .banner-content {
+  flex: 0 0 100%;
+  color: var(--background-color);
+  background-color: rgba(0 0 0  / 20%);
+}
+
+.banner.full .banner-content a {
+  color: var(--background-color);
 }
 
 .banner .banner-image {
@@ -24,6 +40,13 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+
+.banner.full .banner-image {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  aspect-ratio: unset;
 }
 
 @media (width >= 600px) {
