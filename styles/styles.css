@@ -115,8 +115,8 @@ h4, h5, h6 {
   font-family: var(--heading-font-family);
   font-weight: 600;
   line-height: 1.25;
-  margin-top: .5em;
-  margin-bottom: .5em;
+  margin-block-start: 0em;
+  margin-block-end: 1em;
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
@@ -136,8 +136,8 @@ h5 { font-size: var(--heading-font-size-s) }
 h6 { font-size: var(--heading-font-size-xs) }
 
 p, dl, ol, ul, pre, blockquote {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-block-start: 0em;
+  margin-block-end: 1em;
 }
 
 code, pre {
@@ -237,6 +237,10 @@ main .section {
   padding-inline: 16px;
 }
 
+main .section > div {
+  margin-block: 0 2rem;
+}
+
 @media (width >= 600px) {
   main .section {
     padding-inline: 32px;
@@ -246,7 +250,7 @@ main .section {
 @media (width >= 900px) {
   .section > div {
     max-width: var(--max-content-width);
-    margin: auto;
+    margin-inline: auto;
   }
 }
 
