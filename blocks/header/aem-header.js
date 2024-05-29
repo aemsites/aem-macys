@@ -102,6 +102,13 @@ export class AEMHeader extends HTMLElement {
         styles.onerror = () => { body.style = ''; };
         this.shadowRoot.appendChild(styles);
 
+        const fontStyles = document.createElement('link');
+        fontStyles.setAttribute('rel', 'stylesheet');
+        fontStyles.setAttribute('href', `${origin}/styles/fonts.css`);
+        fontStyles.onload = () => { body.style = ''; };
+        fontStyles.onerror = () => { body.style = ''; };
+        this.shadowRoot.appendChild(fontStyles);
+
         const componentStyles = document.createElement('link');
         componentStyles.setAttribute('rel', 'stylesheet');
         componentStyles.setAttribute('href', `${origin}/blocks/header/aem-header.css`);
