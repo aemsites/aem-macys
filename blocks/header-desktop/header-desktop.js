@@ -207,7 +207,6 @@ export default async function decorate(block) {
     }
   };
 
-
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape') closeMenu();
   });
