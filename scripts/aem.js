@@ -414,6 +414,7 @@ function wrapTextNodes(block) {
   });
 }
 
+
 /**
  * Decorates paragraphs containing a single link as buttons.
  * @param {Element} element container element
