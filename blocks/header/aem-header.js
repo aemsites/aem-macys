@@ -13,7 +13,7 @@ export class AEMHeader extends HTMLElement {
     this.initialized = false;
   }
 
-  async loadBlock(name, wrapper) {
+  async loadBlock(name, wrapper, origin) {
     const blockStyles = document.createElement('link');
     blockStyles.setAttribute('rel', 'stylesheet');
     blockStyles.setAttribute('href', `${origin}/blocks/header-${name}/header-${name}.css`);
@@ -50,32 +50,32 @@ export class AEMHeader extends HTMLElement {
     }
   }
 
-  async loadDesktopHeader(wrapper) {
+  async loadDesktopHeader(wrapper, origin) {
     if (wrapper.dataset.loaded !== 'true') {
-      await this.loadBlock('desktop', wrapper);
+      await this.loadBlock('desktop', wrapper, origin);
 
       wrapper.dataset.loaded = 'true';
     }
   }
 
-  async loadMobileHeader(wrapper) {
+  async loadMobileHeader(wrapper, origin) {
     if (wrapper.dataset.loaded !== 'true') {
-      await this.loadBlock('mobile', wrapper);
+      await this.loadBlock('mobile', wrapper, origin);
 
       wrapper.dataset.loaded = 'true';
     }
   }
 
-  async loadHeaders(body, isDesktop) {
+  async loadHeaders(body, isDesktop, origin) {
     const desktopWrapper = body.querySelector('.desktop-header-wrapper');
     const mobileWrapper = body.querySelector('.mobile-header-wrapper');
     if (isDesktop.matches) {
       mobileWrapper.setAttribute('aria-hidden', 'true');
-      await this.loadDesktopHeader(desktopWrapper);
+      await this.loadDesktopHeader(desktopWrapper, origin);
       desktopWrapper.setAttribute('aria-hidden', 'false');
     } else {
       desktopWrapper.setAttribute('aria-hidden', 'true');
-      await this.loadMobileHeader(mobileWrapper);
+      await this.loadMobileHeader(mobileWrapper, origin);
       mobileWrapper.setAttribute('aria-hidden', 'false');
     }
   }
@@ -118,9 +118,9 @@ export class AEMHeader extends HTMLElement {
         this.initialized = true;
 
         const isDesktop = window.matchMedia('(min-width: 900px)');
-        await this.loadHeaders(body, isDesktop);
+        await this.loadHeaders(body, isDesktop, origin);
         isDesktop.addEventListener('change', () => {
-          this.loadHeaders(body, isDesktop);
+          this.loadHeaders(body, isDesktop, origin);
         });
 
         body.classList.add('appear');
