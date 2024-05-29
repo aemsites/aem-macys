@@ -322,9 +322,7 @@ function loadDelayed() {
 }
 
 async function loadPage() {
-  if (window.hlx && window.hlx.skipInit) {
-    return;
-  }
+  if (window.hlx && window.hlx.skipInit) return;
 
   await loadEager(document);
   await loadLazy(document);
