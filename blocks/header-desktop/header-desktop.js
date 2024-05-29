@@ -212,3 +212,4 @@ export default async function decorate(block) {
   });
   navCurtain.addEventListener('click', closeMenu);
 }
+
