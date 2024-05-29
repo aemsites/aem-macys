@@ -127,7 +127,6 @@ export function getOrigin() {
   return window.location.href === 'about:srcdoc' ? window.parent.location.origin : window.location.origin;
 }
 
-
 export function getConfig(prefix = '', segment = '') {
   window.hlx.config = window.hlx.config || {};
   if (!window.hlx.config[segment]) {
