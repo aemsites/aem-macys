@@ -49,13 +49,12 @@
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: url(https://storage.googleapis.com/assets.mcomnyapps.net/snippet/2023-09-18/images/button-play.svg?authuser=0);
+  background: url('https://storage.googleapis.com/assets.mcomnyapps.net/snippet/2023-09-18/images/button-play.svg?authuser=0');
   background-repeat: no-repeat;
 }
 
 .video .video-content-overlay .video-control.playing {
-  background: url(https://storage.googleapis.com/assets.mcomnyapps.net/snippet/2023-09-18/images/button-pause.svg?authuser=0);
-  background-repeat: no-repeat;
+  background: url('https://storage.googleapis.com/assets.mcomnyapps.net/snippet/2023-09-18/images/button-pause.svg?authuser=0');
 }
 
 .video .video-content {
