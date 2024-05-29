@@ -38,7 +38,6 @@ function toggleNavButtonAbility(navList, buttonsDisabled) {
 function decorateNav(navSection) {
   if (!navSection || !navSection.querySelector('ul')) return;
 
-
   const navList = navSection.querySelector('ul');
   navList.classList.add('nav-list');
   navList.querySelectorAll(':scope > li').forEach((liEl, idx) => {
