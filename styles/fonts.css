@@ -2,40 +2,40 @@
   font-family: "Macys Sans";
   font-weight: 300;
   font-display: swap;
-  src: url('../fonts-ext/MacysSansLt.woff2') format("woff2");
+  src: url('../fonts/MacysSansLt.woff2') format("woff2");
 }
 
 @font-face {
   font-family: "Macys Sans";
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts-ext/MacysSans.woff2') format("woff2");
+  src: url('../fonts/MacysSans.woff2') format("woff2");
 }
 
 @font-face {
   font-family: "Macys Sans";
   font-weight: 500;
   font-display: swap;
-  src: url('../fonts-ext/MacysSansMd.woff2') format("woff2");
+  src: url('../fonts/MacysSansMd.woff2') format("woff2");
 }
 
 @font-face {
   font-family: "Macys Sans";
   font-weight: 700;
   font-display: swap;
-  src: url('../fonts-ext/MacysSansBd.woff2') format("woff2");
+  src: url('../fonts/MacysSansBd.woff2') format("woff2");
 }
 
 @font-face {
   font-family: "Macys Sans";
   font-weight: 800;
   font-display: swap;
-  src: url('../fonts-ext/MacysSansXBd.woff2') format("woff2");
+  src: url('../fonts/MacysSansXBd.woff2') format("woff2");
 }
 
 @font-face {
   font-family: tt-ramillas;
   font-display: swap;
-  src: url('../fonts-ext/TT-Ramillas.woff2') format("woff2");
+  src: url('../fonts/TT-Ramillas.woff2') format("woff2");
   font-weight: 400;
 }
