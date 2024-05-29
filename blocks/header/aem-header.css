@@ -1,3 +1,75 @@
+/* vars copied from styles.css */
+
+:root {
+  /* colors */
+  --link-color: #035fe6;
+  --link-hover-color: #136ff6;
+  --background-color: white;
+  --light-color: #eee;
+  --dark-color: #ccc;
+  --text-color: black;
+  --color-macys-red: #e01a2b;
+
+  /* fonts */
+  --body-font-family: "Macys Sans", "Macys Sans-fallback", sans-serif;
+  --heading-font-family: var(--body-font-family);
+  --fancy-heading-font-family: tt-ramillas, tt-ramillas-fallback, sans-serif;
+  --fixed-font-family: menlo, consolas, 'Liberation Mono', monospace;
+
+  /* body sizes */
+  --body-font-size-xl: 20px;
+  --body-font-size-l: 18px;
+  --body-font-size-m: 14px;
+  --body-font-size-s: 12px;
+
+  /* heading sizes */
+  --heading-font-size-xxl: clamp(40px, .2615rem + 3.5011vw, 56px);
+  --heading-font-size-xl: clamp(30px, 1.1755rem + 1.0941vw, 35px);
+  --heading-font-size-l: clamp(24px, 1.3601rem + .2188vw, 25px);
+  --heading-font-size-m: clamp(20px, 1.25rem, 20px);
+  --heading-font-size-s: clamp(16px, .7202rem + .4376vw, 18px);
+  --heading-font-size-xs: clamp(14px, .5952rem + .4376vw, 16px);
+
+  /* nav height */
+  --nav-height: 128px;
+  --max-content-width: 1480px;
+}
+
+@media (width >= 900px) {
+  :root {
+    --nav-height: 160px;
+  }
+}
+
+@font-face {
+  font-family: "Macys Sans-fallback";
+  size-adjust: 101%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: "Macys Sans-fallback";
+  font-weight: 500;
+  size-adjust: 103%;
+  ascent-override: 94%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: "Macys Sans-fallback";
+  font-weight: 700;
+  size-adjust: 87%;
+  src: local('Arial Black');
+}
+
+@font-face {
+  font-family: tt-ramillas-fallback;
+  src: local('Times New Roman');
+  size-adjust: 108%;
+  line-gap-override: 16%;
+}
+/* end vars */
+
 .header-wrapper[aria-hidden="true"],
 .header-wrapper:has(.block[data-block-status="error"]) {
   display: none;
