@@ -100,7 +100,7 @@ export default async function decorate(block) {
     // const pathname = encodeURIComponent(`${window.location.pathname}&id=${catId}`);
     // encoding this fails, for...reasons !!!!?!?!?!
     const pathname = `${window.location.pathname}&id=${catId}`;
-    const fetchUrl = `https://www.macys.com/xapi/discover/v1/page?pathname=${pathname}&_application=SITE&_navigationType=BROWSE&_deviceType=DESKTOP&_shoppingMode=SITE&_regionCode=US&_customerExperiment=1086-21,1162-21,1167-21,1180-21,2026-21,2027-11,2030-11,662-23,664-33,835-21&currencyCode=USD&_customerState=GUEST&pageIndex=2&productsPerPage=60&sortBy=ORIGINAL&_additionalStoreLocations=5111&spItemsVersion=1.0&customerId=08ac3e2c-a913-47f6-b9f6-8193d7deb43e&utagId=018f64b4903c000fc4c48868899e05075002406d00fb8&visitorId=23920667182692754085265786200524946032&size=medium`;
+    const fetchUrl = `https://www.macys.com/xapi/discover/v1/page?pathname=${pathname}&_application=SITE&_navigationType=BROWSE&_deviceType=DESKTOP&_shoppingMode=SITE&_regionCode=US`;
     const resp = await fetch(fetchUrl);
     if (resp.ok) {
       const json = await resp.json();
