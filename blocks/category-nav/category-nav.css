@@ -44,7 +44,7 @@ main .category-nav nav .nav-expandable button::after {
   position: absolute;
   content: "";
   right: 20px;
-  background-color: currentColor;
+  background-color: currentcolor;
   width: 1px;
   height: 10px;
 }
@@ -86,6 +86,7 @@ main .category-nav .toggle-nav + nav {
   transition: grid-template-rows 0.5s ease-in-out;
 }
 
+/* stylelint-disable no-descending-specificity */
 main .category-nav .toggle-nav + nav > ul {
   overflow: hidden;
 }
@@ -106,7 +107,7 @@ main .category-nav .toggle-nav::after {
   position: absolute;
   content: "";
   right: 20px;
-  background-color: currentColor;
+  background-color: currentcolor;
   width: 1px;
   height: 10px;
 }
