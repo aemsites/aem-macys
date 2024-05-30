@@ -27,6 +27,7 @@
   .catsplash main.grid > .section.left-nav {
     grid-row: 1 / -1;
     grid-column: 1;
+    padding-inline-end: 0;
   }
 
   .catsplash main.grid > div {

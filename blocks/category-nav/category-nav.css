@@ -1,0 +1,126 @@
+main .category-nav nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+main .category-nav nav .nav-expandable button + .nav-expansion-inner { 
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s ease-in-out;
+}
+
+main .category-nav nav .nav-expandable button + .nav-expansion-inner > ul {
+  overflow: hidden;
+}
+
+main .category-nav nav .nav-expandable button + .nav-expansion-inner > ul > li:first-child {
+  margin-block-start: 1rem;
+}
+
+main .category-nav nav .nav-expandable button[aria-expanded="true"] + .nav-expansion-inner {
+  grid-template-rows: 1fr;
+}
+
+main .category-nav nav .nav-expandable button {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  width: 100%;
+  position: relative;
+  text-align: left;
+  justify-content: left;
+  font-weight: 400;
+  border-radius: 0;
+}
+
+main .category-nav nav .nav-expandable button::before,
+main .category-nav nav .nav-expandable button::after {
+  position: absolute;
+  content: "";
+  right: 20px;
+  background-color: currentColor;
+  width: 1px;
+  height: 10px;
+}
+
+main .category-nav nav .nav-expandable button::after {
+  rotate: 90deg;
+}
+
+main .category-nav nav .nav-expandable button[aria-expanded="true"]::before {
+  content: none;
+}
+
+main .category-nav nav > ul > li.nav-expandable {
+  padding-block: .5rem 1.5rem;
+  border-bottom: 1px solid var(--dark-color);
+}
+
+main .category-nav nav > ul > li.nav-expandable:nth-child(1 of .nav-expandable) {
+  padding-block: 1.5rem 1.5rem;
+  border-top: 1px solid var(--dark-color);
+}
+
+main .category-nav nav a {
+  text-decoration: none;
+  font-weight: 400;
+}
+
+main .category-nav nav a:hover {
+  text-decoration: underline;
+}
+
+main .category-nav nav a.highlighted {
+  color: var(--color-macys-red);
+}
+
+main .category-nav .toggle-nav + nav { 
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s ease-in-out;
+}
+
+main .category-nav .toggle-nav + nav > ul {
+  overflow: hidden;
+}
+
+main .category-nav .toggle-nav[aria-expanded="true"] + nav {
+  grid-template-rows: 1fr;
+}
+
+main .category-nav .toggle-nav {
+  position: relative;
+  padding: .5em 0;
+  width: 100%;
+  height: auto;
+}
+
+main .category-nav .toggle-nav::before,
+main .category-nav .toggle-nav::after {
+  position: absolute;
+  content: "";
+  right: 20px;
+  background-color: currentColor;
+  width: 1px;
+  height: 10px;
+}
+
+main .category-nav .toggle-nav::after {
+  rotate: 90deg;
+}
+
+main .category-nav .toggle-nav[aria-expanded="true"]::before {
+  content: none;
+}
+
+@media (width >= 900px) {
+  main .category-nav .toggle-nav {
+    display: none;
+  }
+}
