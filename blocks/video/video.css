@@ -36,10 +36,6 @@
   height: 100%;
 }
 
-.video.lazy .video-content-overlay .video-control {
-  display: none;
-}
-
 .video .video-content-overlay .video-control {
   position: absolute;
   bottom: 1rem;
@@ -51,6 +47,10 @@
   border-radius: 50%;
   background: url('https://storage.googleapis.com/assets.mcomnyapps.net/snippet/2023-09-18/images/button-play.svg?authuser=0');
   background-repeat: no-repeat;
+}
+
+.video.lazy .video-content-overlay .video-control {
+  display: none;
 }
 
 .video .video-content-overlay .video-control.playing {
