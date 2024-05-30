@@ -3,9 +3,27 @@ import { button } from '../../scripts/dom-helpers.js';
 
 const isDesktop = window.matchMedia('(width >= 900px)');
 
+function toggleTabability(container, visible) {
+  container.querySelectorAll('button, a').forEach((el) => {
+    if (visible) {
+      el.removeAttribute('tabindex');
+    } else {
+      el.setAttribute('tabindex', -1);
+    }
+  });
+}
+
 function toggleNav(toggleButton, nav, forceExpanded = null) {
   const shouldExpand = forceExpanded !== null ? forceExpanded : toggleButton.getAttribute('aria-expanded') === 'false';
   toggleButton.setAttribute('aria-expanded', shouldExpand);
+  toggleTabability(nav, shouldExpand);
+  nav.querySelectorAll('.nav-expandable').forEach((expandable, idx) => {
+    const btn = expandable.querySelector(':scope > button');
+    const controls = expandable.querySelector(`#${btn.getAttribute('aria-controls')}`);
+    const expandSub = forceExpanded && idx === 0;
+    btn.setAttribute('aria-expanded', expandSub);
+    toggleTabability(controls, expandSub);
+  });
 }
 
 function renderNavList(navData) {
@@ -56,7 +74,9 @@ function renderNavList(navData) {
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';
         btn.setAttribute('aria-expanded', !expanded);
+        toggleTabability(childrenList, !expanded);
       });
+      toggleTabability(childrenList, false);
       header.before(btn);
       btn.append(header);
       li.classList.add('nav-expandable');
@@ -96,7 +116,8 @@ export default async function decorate(block) {
           type: 'button',
           class: 'toggle-nav',
           'aria-controls': 'category-nav',
-        }, 'Category Navigation');
+          'aria-label': 'Category Navigation',
+        });
         toggleNav(expandButton, nav, isDesktop.matches);
         isDesktop.addEventListener('change', () => {
           toggleNav(expandButton, nav, isDesktop.matches);

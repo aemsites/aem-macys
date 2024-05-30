@@ -95,18 +95,28 @@ main .category-nav .toggle-nav[aria-expanded="true"] + nav {
   grid-template-rows: 1fr;
 }
 
-main .category-nav .toggle-nav {
+main .category-nav {
   position: relative;
-  padding: .5em 0;
-  width: 100%;
-  height: auto;
+}
+
+main .category-nav .toggle-nav {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid currentcolor;
+  border-radius: 0;
+  right: 0;
 }
 
 main .category-nav .toggle-nav::before,
 main .category-nav .toggle-nav::after {
   position: absolute;
   content: "";
-  right: 20px;
+  right: 50%;
   background-color: currentcolor;
   width: 1px;
   height: 10px;
