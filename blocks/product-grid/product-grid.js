@@ -1,11 +1,37 @@
-import { getMetadata } from '../../scripts/aem.js';
+import { decorateIcons, getMetadata, toClassName } from '../../scripts/aem.js';
 import invokePageApi from '../../scripts/macys-api.js';
 import {
-  div, ul, li, a, domEl, button,
+  div, ul, li, a, domEl, button, p, span, nav,
 } from '../../scripts/dom-helpers.js';
 
-function updateFacets(facetsEl, facets, sorts) {
+async function updateGrid(block, opts) {
+  const update = async () => {
+    const facetsEl = block.querySelector('.product-grid-facets');
+    const productGrid = block.querySelector('.product-grid-products');
+    const pagingEl = block.querySelector('.product-grid-paging');
+    Object.entries(opts).forEach(([k, v]) => {
+      productGrid.dataset[k] = v;
+    });
 
+    // eslint-disable-next-line no-use-before-define
+    await renderProductGrid(facetsEl, productGrid, pagingEl);
+  };
+
+  const start = Date.now();
+  document.querySelector('main').classList.add('loading-products');
+  block.scrollIntoView({ behavior: 'instant', block: 'start' });
+  if (document.startViewTransition) {
+    const transition = document.startViewTransition(update);
+    await transition.updateCallbackDone;
+  } else {
+    await update();
+  }
+
+  setTimeout(() => { document.querySelector('main').classList.remove('loading-products'); }, 500);
+}
+
+function updateFacets(facetsEl, facets, sorts) {
+  console.log(facets, sorts);
 }
 
 const imgBaseUrl = 'https://slimages.macysassets.com/is/image/MCY/products';
@@ -30,11 +56,13 @@ function updateImage(imageContainer, imagery) {
     { class: 'pic-scroller' },
     createPicture(primaryImagePath),
   );
-  imagery.additionalImageSource.forEach((img) => {
-    if (img.filePath !== primaryImagePath) {
-      picScroller.append(createPicture(img.filePath));
-    }
-  });
+  if (imagery.additionalImageSource) {
+    imagery.additionalImageSource.forEach((img) => {
+      if (img.filePath !== primaryImagePath) {
+        picScroller.append(createPicture(img.filePath));
+      }
+    });
+  }
 
   let scrollInterval;
   picScroller.dataset.activeImage = 0;
@@ -70,7 +98,7 @@ function updateImage(imageContainer, imagery) {
   imageContainer.replaceChildren(picScroller);
 }
 
-function renderColorSwatches(swatchContainer, imageContainer, colors) {
+function updateColorSwatches(swatchContainer, imageContainer, colors) {
   const swatchList = ul({ 'data-active-swatch': 0 });
   colors.forEach((color, idx) => {
     const swatchItem = li(
@@ -114,48 +142,196 @@ function renderColorSwatches(swatchContainer, imageContainer, colors) {
   swatchList.addEventListener('mouseleave', () => {
     swatchList.querySelector('.swatch-button.active').click();
   });
-  swatchContainer.append(swatchList);
+  swatchContainer.replaceChildren(swatchList);
 }
 
-function productCard(product) {
+function createProductCard(product) {
+  // console.log(product);
+  const {
+    pricing, identifier, detail, traits, imagery,
+  } = product;
   const item = li(
+    { class: 'product-card' },
     div(
       { class: 'product-image' },
       a(
         {
-          href: `https://www.macys.com${product.identifier.productUrl}`,
-          title: product.detail.name,
+          href: `https://www.macys.com${identifier.productUrl}`,
+          title: detail.name,
         },
       ),
     ),
-    div({ class: 'product-colors' }),
     div({ class: 'product-title' }),
     div({ class: 'product-pricing' }),
-    div({ class: 'product-ratings' }),
   );
 
-  if (product.traits && product.traits.colors
-    && product.traits.colors.colorMap && product.traits.colors.colorMap.length > 1) {
-    renderColorSwatches(item.querySelector('.product-colors'), item.querySelector('.product-image a'), product.traits.colors.colorMap);
-    updateImage(item.querySelector('.product-image a'), product.traits.colors.colorMap[0].imagery);
+  if (traits && traits.colors
+    && traits.colors.colorMap && traits.colors.colorMap.length > 1) {
+    const colors = div({ class: 'product-colors' });
+    updateColorSwatches(colors, item.querySelector('.product-image a'), traits.colors.colorMap);
+    item.querySelector('.product-image').after(colors);
+    updateImage(item.querySelector('.product-image a'), traits.colors.colorMap[0].imagery);
   } else {
-    updateImage(item.querySelector('.product-image a'), product.imagery);
+    updateImage(item.querySelector('.product-image a'), imagery);
   }
+
+  if (detail.bottomOverlay) {
+    const overlay = div({ class: `bottom-overlay ${detail.bottomOverlay.classes.join(' ')}` }, detail.bottomOverlay.text);
+    item.querySelector('.product-image').after(overlay);
+  }
+
+  item.querySelector('.product-title').append(a(
+    { class: 'product-link', title: detail.name, href: `https://www.macys.com${identifier.productUrl}` },
+    p(detail.brand),
+    p(detail.name),
+  ));
+  item.querySelectorAll('.product-link p').forEach((par) => {
+    // decode the html entities, e.g &quot;
+    const temp = div();
+    temp.innerHTML = par.textContent;
+    par.textContent = temp.textContent;
+  });
+
+  // pricing
+  const pricingContainer = item.querySelector('.product-pricing');
+  if (pricing.price.priceType.text) {
+    const priceType = span({ class: `price-type ${toClassName(pricing.price.priceType.text)}` }, pricing.price.priceType.text);
+    item.querySelector('.product-image').append(priceType);
+  }
+
+  pricing.price.tieredPrice.forEach((price) => {
+    const { label, values } = price;
+    const formattedLabel = label.replace('[PRICE]', values[0].formattedValue);
+    const priceHolder = div({ class: 'price-holder' }, p({ class: `price tiered-price price-${toClassName(values[0].type)}` }, formattedLabel));
+
+    pricingContainer.append(priceHolder);
+  });
+
+  if (pricing.badges) {
+    pricing.badges.forEach((priceBadge) => {
+      if (priceBadge.header) {
+        const priceHolder = div({ class: 'price-holder' }, p({ class: 'price price-badge price-badge-header' }, priceBadge.header));
+        if (priceBadge.description) {
+          priceHolder.dataset.description = priceBadge.description;
+          priceHolder.classList.add('price-tooltip');
+        }
+        pricingContainer.append(priceHolder);
+      } else if (priceBadge.finalPrice) {
+        const { label, values } = priceBadge.finalPrice;
+        const priceHolder = div({ class: 'price-holder' }, p({ class: 'price price-badge price-badge-final-price' }));
+        values.forEach((val, i) => {
+          const valEl = span({ class: toClassName(val.type) });
+          if (i === 0) {
+            const formattedLabel = label.replace('[PRICE]', val.formattedValue);
+            valEl.append(formattedLabel);
+          } else {
+            const formattedLabel = ` - ${val.formattedValue}`;
+            valEl.append(formattedLabel);
+          }
+
+          priceHolder.querySelector('.price').append(valEl);
+        });
+        pricingContainer.append(priceHolder);
+      }
+    });
+  }
+
+  // ratings
+  if (detail.reviewStatistics.aggregate) {
+    const ratingPct = Math.round((detail.reviewStatistics.aggregate.rating / 5) * 100);
+    const reviews = div(
+      { class: 'product-reviews' },
+      span({ class: 'review-stars', style: `--rating-pct: ${ratingPct}%;` }),
+      span(`(${product.detail.reviewStatistics.aggregate.count})`),
+    );
+    item.append(reviews);
+  }
+
+  // more like this?
 
   return item;
 }
 
-function updateGrid(productGrid, sortableGrid) {
-  const list = ul();
+function updateProducts(productGrid, sortableGrid) {
+  const list = ul({ class: 'product-list' });
   sortableGrid.collection.forEach((product) => {
-    const item = productCard(product.product);
+    const item = createProductCard(product.product);
     list.append(item);
   });
   productGrid.replaceChildren(list);
 }
 
 function updatePaging(pagingEl, gridModel) {
+  const { perPage, pagination } = gridModel;
+  const show = ul(
+    { class: 'per-page' },
+    li({ class: 'show-text' }, 'Show:'),
+    ...perPage.map((perPageOpt) => {
+      const buttonOpts = {
+        type: 'button',
+      };
+      if (perPageOpt.isSelected) {
+        buttonOpts.disabled = '';
+      }
+      const pagingOpt = li(
+        { class: `per-page-option${perPageOpt.isSelected ? ' selected' : ''}` },
+        button(buttonOpts, perPageOpt.name),
+      );
+      return pagingOpt;
+    }),
+  );
 
+  show.querySelectorAll('.per-page-option button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      updateGrid(pagingEl.closest('.product-grid'), {
+        page: 1,
+        perPage: btn.textContent,
+      });
+    });
+  });
+
+  const { currentPage, numberOfPages } = pagination;
+  const pager = nav({ class: 'pages', 'aria-label': 'Navigate Pages' });
+  const navList = ul(li(div(
+    { class: 'select-container' },
+    domEl('label', { for: 'pages-select' }, 'Page'),
+    domEl('select', { id: 'pages-select' }),
+  )));
+  const selector = navList.querySelector('select');
+  for (let i = 1; i <= numberOfPages; i += 1) {
+    const opt = domEl('option', { value: i }, `${i} of ${numberOfPages}`);
+    if (i === currentPage) {
+      opt.setAttribute('selected', '');
+    }
+    selector.append(opt);
+  }
+  selector.addEventListener('change', () => {
+    updateGrid(pagingEl.closest('.product-grid'), {
+      page: selector.value,
+    });
+  });
+  if (currentPage > 1) {
+    const prev = li(button({ class: 'page-prev' }, span({ class: 'icon icon-chevron-right' })));
+    prev.querySelector('button').addEventListener('click', () => {
+      updateGrid(pagingEl.closest('.product-grid'), {
+        page: currentPage - 1,
+      });
+    });
+    navList.prepend(prev);
+  }
+  if (currentPage < numberOfPages) {
+    const next = li(button({ class: 'page-next' }, span({ class: 'icon icon-chevron-right' })));
+    next.querySelector('button').addEventListener('click', () => {
+      updateGrid(pagingEl.closest('.product-grid'), {
+        page: currentPage + 1,
+      });
+    });
+    navList.append(next);
+  }
+  pager.append(navList);
+  decorateIcons(pager);
+
+  pagingEl.replaceChildren(show, pager);
 }
 
 function updateMeta(gridModelMeta) {
@@ -175,11 +351,10 @@ async function renderProductGrid(facetsEl, productGrid, pagingEl) {
     const json = await resp.json();
     if (json && json.body && json.body.canvas && json.body.canvas.rows) {
       const { rowSortableGrid } = json.body.canvas.rows.find((row) => row.rowSortableGrid);
-      console.log(rowSortableGrid);
       const { facets } = rowSortableGrid.zones.find((zone) => zone.facets);
       const { sortableGrid } = rowSortableGrid.zones.find((zone) => zone.sortableGrid);
       updateFacets(facetsEl, facets, sortableGrid.model.sort);
-      updateGrid(productGrid, sortableGrid);
+      updateProducts(productGrid, sortableGrid);
       updatePaging(pagingEl, sortableGrid.model);
       updateMeta(sortableGrid.model.meta);
     }
@@ -205,4 +380,5 @@ export default async function decorate(block) {
     renderProductGrid(facets, productGrid, paging);
     block.replaceChildren(facets, productGrid, paging);
   }
+  document.querySelector('main').append(div({ class: 'loading-products-overlay' }));
 }
