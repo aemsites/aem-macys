@@ -1,5 +1,6 @@
 import { getMetadata, toClassName } from '../../scripts/aem.js';
 import { button } from '../../scripts/dom-helpers.js';
+import invokePageApi from '../../scripts/macys-api.js';
 
 const isDesktop = window.matchMedia('(width >= 900px)');
 
@@ -91,17 +92,13 @@ function renderNavList(navData) {
 }
 
 /**
- * decorate the cateogyr nav block
+ * decorate the category nav block
  * @param {Element} block the block
  */
 export default async function decorate(block) {
   const catId = getMetadata('category-id');
   if (catId) {
-    // const pathname = encodeURIComponent(`${window.location.pathname}&id=${catId}`);
-    // encoding this fails, for...reasons !!!!?!?!?!
-    const pathname = `${window.location.pathname}&id=${catId}`;
-    const fetchUrl = `https://www.macys.com/xapi/discover/v1/page?pathname=${pathname}&_application=SITE&_navigationType=BROWSE&_deviceType=DESKTOP&_shoppingMode=SITE&_regionCode=US`;
-    const resp = await fetch(fetchUrl);
+    const resp = await invokePageApi(window.location.pathname, catId);
     if (resp.ok) {
       const json = await resp.json();
       if (json.body && json.body.categoryTree && json.body.categoryTree.groups) {
