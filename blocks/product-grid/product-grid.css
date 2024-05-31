@@ -1,0 +1,75 @@
+main .product-grid {
+  position: relative;
+}
+
+main .product-grid .product-grid-products > ul {
+  /**
+   * User input values.
+   */
+   --grid-layout-gap: 2rem;
+   --grid-column-count: 4;
+   --grid-item-min-width: 250px;
+ 
+   /**
+    * Calculated values.
+    */
+   --gap-count: calc(var(--grid-column-count) - 1);
+   --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
+   --grid-item-max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(max(var(--grid-item-min-width), var(--grid-item-max-width)), 1fr));
+  grid-gap: var(--grid-layout-gap);
+}
+
+main .product-grid .product-grid-products > ul > li {
+  display: flex;
+  flex-direction: column;
+}
+
+main .product-grid .pic-scroller {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overflow: scroll clip;
+}
+
+main .product-grid .pic-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+main .product-grid .pic-scroller picture {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+main .product-grid .product-colors > ul {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  display: inline-flex;
+  gap: .5rem
+}
+
+main .product-grid .product-colors .swatch-button {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  display: block;
+  border-radius: 50%;
+}
+
+main .product-grid .product-colors .swatch-button.active,
+main .product-grid .product-colors .swatch-button:hover,
+main .product-grid .product-colors .swatch-button:focus-visible {
+  outline-offset: 2px;
+  outline: 2px solid var(--link-hover-color);
+}
