@@ -17,7 +17,6 @@ async function updateGrid(block, opts) {
     await renderProductGrid(facetsEl, productGrid, pagingEl);
   };
 
-  const start = Date.now();
   document.querySelector('main').classList.add('loading-products');
   block.scrollIntoView({ behavior: 'instant', block: 'start' });
   if (document.startViewTransition) {
@@ -31,7 +30,106 @@ async function updateGrid(block, opts) {
 }
 
 function updateFacets(facetsEl, facets, sorts) {
-  console.log(facets, sorts);
+  console.log(facets);
+  const filter = div({ class: 'product-filters' });
+
+  const sort = div(
+    { class: 'product-sorts' },
+    div(
+      { class: 'select-container' },
+      domEl('label', { for: 'sort-select' }, 'Sort by'),
+      domEl('select', { id: 'sort-select' }),
+    ),
+  );
+  const selector = sort.querySelector('select');
+  sorts.forEach((sortBy) => {
+    const { name, value, isSelected } = sortBy;
+    const opt = domEl('option', { value }, name);
+    if (isSelected) {
+      opt.setAttribute('selected', '');
+    }
+    selector.append(opt);
+  });
+  selector.addEventListener('change', () => {
+    updateGrid(facetsEl.closest('.product-grid'), {
+      sort: selector.value,
+    });
+  });
+
+  facetsEl.replaceChildren(filter, sort);
+}
+
+function updatePaging(pagingEl, gridModel) {
+  const { perPage, pagination } = gridModel;
+  const show = ul(
+    { class: 'per-page' },
+    li({ class: 'show-text' }, 'Show:'),
+    ...perPage.map((perPageOpt) => {
+      const buttonOpts = {
+        type: 'button',
+      };
+      if (perPageOpt.isSelected) {
+        buttonOpts.disabled = '';
+      }
+      const pagingOpt = li(
+        { class: `per-page-option${perPageOpt.isSelected ? ' selected' : ''}` },
+        button(buttonOpts, perPageOpt.name),
+      );
+      return pagingOpt;
+    }),
+  );
+
+  show.querySelectorAll('.per-page-option button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      updateGrid(pagingEl.closest('.product-grid'), {
+        page: 1,
+        perPage: btn.textContent,
+      });
+    });
+  });
+
+  const { currentPage, numberOfPages } = pagination;
+  const pager = nav({ class: 'pages', 'aria-label': 'Navigate Pages' });
+  const navList = ul(li(div(
+    { class: 'select-container' },
+    domEl('label', { for: 'pages-select' }, 'Page'),
+    domEl('select', { id: 'pages-select' }),
+  )));
+  const selector = navList.querySelector('select');
+  for (let i = 1; i <= numberOfPages; i += 1) {
+    const opt = domEl('option', { value: i }, `${i} of ${numberOfPages}`);
+    if (i === currentPage) {
+      opt.setAttribute('selected', '');
+    }
+    selector.append(opt);
+  }
+  selector.addEventListener('change', () => {
+    updateGrid(pagingEl.closest('.product-grid'), {
+      page: selector.value,
+    });
+  });
+  if (currentPage > 1) {
+    const prev = li(button({ class: 'page-prev' }, span({ class: 'icon icon-chevron-right' })));
+    prev.querySelector('button').addEventListener('click', () => {
+      updateGrid(pagingEl.closest('.product-grid'), {
+        page: currentPage - 1,
+      });
+    });
+    navList.prepend(prev);
+  }
+  if (currentPage < numberOfPages) {
+    const next = li(button({ class: 'page-next' }, span({ class: 'icon icon-chevron-right' })));
+    next.querySelector('button').addEventListener('click', () => {
+      updateGrid(pagingEl.closest('.product-grid'), {
+        page: currentPage + 1,
+      });
+    });
+    navList.append(next);
+  }
+  pager.append(navList);
+  decorateIcons(pager);
+
+  pagingEl.replaceChildren(show, pager);
 }
 
 const imgBaseUrl = 'https://slimages.macysassets.com/is/image/MCY/products';
@@ -104,13 +202,18 @@ function updateColorSwatches(swatchContainer, imageContainer, colors) {
     const swatchItem = li(
       button(
         { type: 'button', class: 'swatch-button', title: color.name },
-        domEl('img', {
-          src: `${imgBaseUrl}/${color.swatchImage.filePath}?wid=50&fmt=jpeg`,
-          alt: color.name,
-          loading: 'lazy',
-          width: 50,
-          height: 50,
-        }),
+        domEl(
+          'picture',
+          domEl('source', { type: 'image/webp', srcset: `${imgBaseUrl}/${color.swatchImage.filePath}?wid=50&fmt=webp` }),
+          domEl('source', { type: 'image/jpeg', srcset: `${imgBaseUrl}/${color.swatchImage.filePath}?wid=50&fmt=jpeg` }),
+          domEl('img', {
+            src: `${imgBaseUrl}/${color.swatchImage.filePath}?wid=50&fmt=jpeg`,
+            alt: color.name,
+            loading: 'lazy',
+            width: 50,
+            height: 50,
+          }),
+        ),
       ),
     );
     const swatchButton = swatchItem.querySelector('.swatch-button');
@@ -202,7 +305,7 @@ function createProductCard(product) {
   pricing.price.tieredPrice.forEach((price) => {
     const { label, values } = price;
     const formattedLabel = label.replace('[PRICE]', values[0].formattedValue);
-    const priceHolder = div({ class: 'price-holder' }, p({ class: `price tiered-price price-${toClassName(values[0].type)}` }, formattedLabel));
+    const priceHolder = div({ class: 'price-holder tiered-price' }, p({ class: `price price-${toClassName(values[0].type)}` }, formattedLabel));
 
     pricingContainer.append(priceHolder);
   });
@@ -210,15 +313,16 @@ function createProductCard(product) {
   if (pricing.badges) {
     pricing.badges.forEach((priceBadge) => {
       if (priceBadge.header) {
-        const priceHolder = div({ class: 'price-holder' }, p({ class: 'price price-badge price-badge-header' }, priceBadge.header));
+        const priceHolder = div({ class: 'price-holder price-badge' }, p({ class: 'price price-badge-header' }, priceBadge.header));
         if (priceBadge.description) {
-          priceHolder.dataset.description = priceBadge.description;
-          priceHolder.classList.add('price-tooltip');
+          priceHolder.classList.add('price-badge-tooltip');
+          const toolTip = div({ class: 'price-tooltip' }, p({ class: 'tooltip-header' }, priceBadge.header), p(priceBadge.description));
+          priceHolder.append(toolTip);
         }
         pricingContainer.append(priceHolder);
       } else if (priceBadge.finalPrice) {
         const { label, values } = priceBadge.finalPrice;
-        const priceHolder = div({ class: 'price-holder' }, p({ class: 'price price-badge price-badge-final-price' }));
+        const priceHolder = div({ class: 'price-holder price-badge' }, p({ class: 'price price-badge-final-price' }));
         values.forEach((val, i) => {
           const valEl = span({ class: toClassName(val.type) });
           if (i === 0) {
@@ -259,79 +363,6 @@ function updateProducts(productGrid, sortableGrid) {
     list.append(item);
   });
   productGrid.replaceChildren(list);
-}
-
-function updatePaging(pagingEl, gridModel) {
-  const { perPage, pagination } = gridModel;
-  const show = ul(
-    { class: 'per-page' },
-    li({ class: 'show-text' }, 'Show:'),
-    ...perPage.map((perPageOpt) => {
-      const buttonOpts = {
-        type: 'button',
-      };
-      if (perPageOpt.isSelected) {
-        buttonOpts.disabled = '';
-      }
-      const pagingOpt = li(
-        { class: `per-page-option${perPageOpt.isSelected ? ' selected' : ''}` },
-        button(buttonOpts, perPageOpt.name),
-      );
-      return pagingOpt;
-    }),
-  );
-
-  show.querySelectorAll('.per-page-option button').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      updateGrid(pagingEl.closest('.product-grid'), {
-        page: 1,
-        perPage: btn.textContent,
-      });
-    });
-  });
-
-  const { currentPage, numberOfPages } = pagination;
-  const pager = nav({ class: 'pages', 'aria-label': 'Navigate Pages' });
-  const navList = ul(li(div(
-    { class: 'select-container' },
-    domEl('label', { for: 'pages-select' }, 'Page'),
-    domEl('select', { id: 'pages-select' }),
-  )));
-  const selector = navList.querySelector('select');
-  for (let i = 1; i <= numberOfPages; i += 1) {
-    const opt = domEl('option', { value: i }, `${i} of ${numberOfPages}`);
-    if (i === currentPage) {
-      opt.setAttribute('selected', '');
-    }
-    selector.append(opt);
-  }
-  selector.addEventListener('change', () => {
-    updateGrid(pagingEl.closest('.product-grid'), {
-      page: selector.value,
-    });
-  });
-  if (currentPage > 1) {
-    const prev = li(button({ class: 'page-prev' }, span({ class: 'icon icon-chevron-right' })));
-    prev.querySelector('button').addEventListener('click', () => {
-      updateGrid(pagingEl.closest('.product-grid'), {
-        page: currentPage - 1,
-      });
-    });
-    navList.prepend(prev);
-  }
-  if (currentPage < numberOfPages) {
-    const next = li(button({ class: 'page-next' }, span({ class: 'icon icon-chevron-right' })));
-    next.querySelector('button').addEventListener('click', () => {
-      updateGrid(pagingEl.closest('.product-grid'), {
-        page: currentPage + 1,
-      });
-    });
-    navList.append(next);
-  }
-  pager.append(navList);
-  decorateIcons(pager);
-
-  pagingEl.replaceChildren(show, pager);
 }
 
 function updateMeta(gridModelMeta) {
