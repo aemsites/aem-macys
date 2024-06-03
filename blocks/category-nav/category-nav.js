@@ -117,7 +117,7 @@ export default async function decorate(block) {
     'aria-controls': 'category-nav',
     'aria-label': 'Category Navigation',
   });
-  toggleNav(expandButton, nav, isDesktop.matches);
+
   isDesktop.addEventListener('change', () => {
     toggleNav(expandButton, nav, isDesktop.matches);
   });
@@ -128,6 +128,8 @@ export default async function decorate(block) {
 
   const catId = getMetadata('category-id');
   if (catId) {
-    loadNav(catId, nav);
+    loadNav(catId, nav).then(() => {
+      toggleNav(expandButton, nav, isDesktop.matches);
+    });
   }
 }
