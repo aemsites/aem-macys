@@ -3,7 +3,7 @@ main .product-carousel .carousel .carousel-navigation-buttons {
 }
 
 main .product-carousel .carousel-slide {
-  max-width: 240px;
+  width: 240px;
   justify-content: flex-start;
   min-height: 350px;
 }
