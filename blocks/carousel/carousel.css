@@ -3,17 +3,17 @@
 }
 
 .carousel .carousel-slides {
-  /**
-   * User input values.
-   */
+  /*
+  * User input values.
+  */
   --layout-gap: 2rem;
   --item-max-width: 200px;
   --min-visible-count: 1;
   --extra-slide-offset: .3;
 
-  /**
-    * Calculated values.
-    */
+  /*
+  * Calculated values.
+  */
   --gap-count: calc(var(--min-visible-count) - 1);
   --total-gap-width: calc(var(--gap-count) * var(--layout-gap));
   --width-without-gaps: calc(100% - var(--total-gap-width));

@@ -362,6 +362,7 @@ function updateProducts(productGrid, sortableGrid) {
       const item = createProductCard(product.product);
       list.append(item);
     } else {
+      // eslint-disable-next-line no-console
       console.warn('proudct not defined', product);
     }
   });

@@ -8,19 +8,19 @@ main .product-grid .product-grid-products {
 }
 
 main .product-grid .product-list {
-  /**
-   * User input values.
-   */
-   --grid-layout-gap: 2rem;
-   --grid-column-count: 4;
-   --grid-item-min-width: 250px;
+  /*
+  * User input values.
+  */
+  --grid-layout-gap: 2rem;
+  --grid-column-count: 4;
+  --grid-item-min-width: 250px;
  
-   /**
-    * Calculated values.
-    */
-   --gap-count: calc(var(--grid-column-count) - 1);
-   --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
-   --grid-item-max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
+  /*
+  * Calculated values.
+  */
+  --gap-count: calc(var(--grid-column-count) - 1);
+  --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
+  --grid-item-max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
 
   list-style: none;
   margin: 0;
@@ -127,6 +127,7 @@ main .product-grid .product-card a.product-link p {
   line-height: 20px;
 }
 
+/* stylelint-disable no-descending-specificity */
 main .product-grid .product-card .product-pricing p {
   margin: 0;
 }
@@ -177,7 +178,7 @@ main .product-grid .product-card .product-pricing .price-tooltip p.tooltip-heade
 main .product-grid .product-card .product-pricing .price-tooltip::before,
 main .product-grid .product-card .product-pricing .price-tooltip::after {
   content: "";
-  border-bottom: .5rem solid rgba(0,0,0,.85);
+  border-bottom: .5rem solid rgba(0 0 0 / 85%);
   border-left: .375rem solid transparent;
   border-right: .375rem solid transparent;
   position: absolute;
@@ -341,7 +342,7 @@ main.loading-products .loading-products-overlay::after {
 }
 
 @keyframes primary-circular-loader {
-  0%,to {
+  0%, 100% {
       box-shadow: 0 -3em 0 .2em #e01a2b,2em -2em 0 .1em #e01a2b,3em 0 0 0 #e01a2b,2em 2em 0 -.5em #e01a2b,0 3em 0 -.5em #e01a2b,-2em 2em 0 -.5em #e01a2b,-3em 0 0 -.5em #e01a2b,-2em -2em 0 -.5em #e01a2b
   }
 
