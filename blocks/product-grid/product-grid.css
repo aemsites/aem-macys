@@ -35,7 +35,7 @@ main .product-grid .product-card {
   max-width: 400px;
 }
 
-main .product-grid .product-card > div:not(.product-image, .bottom-overlay) {
+main .product-grid .product-card .product-content {
   padding-inline: .5rem;
 }
 

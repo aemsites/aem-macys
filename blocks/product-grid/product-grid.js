@@ -263,15 +263,18 @@ function createProductCard(product) {
         },
       ),
     ),
-    div({ class: 'product-title' }),
-    div({ class: 'product-pricing' }),
+    div(
+      { class: 'product-content' },
+      div({ class: 'product-title' }),
+      div({ class: 'product-pricing' }),
+    ),
   );
 
   if (traits && traits.colors
     && traits.colors.colorMap && traits.colors.colorMap.length > 1) {
     const colors = div({ class: 'product-colors' });
     updateColorSwatches(colors, item.querySelector('.product-image a'), traits.colors.colorMap);
-    item.querySelector('.product-image').after(colors);
+    item.querySelector('.product-content').prepend(colors);
     updateImage(item.querySelector('.product-image a'), traits.colors.colorMap[0].imagery);
   } else {
     updateImage(item.querySelector('.product-image a'), imagery);
