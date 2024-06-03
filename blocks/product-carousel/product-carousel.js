@@ -72,6 +72,10 @@ async function loadSlide(slide) {
     const slideContents = createSlide(slideRow, slide.dataset.slideIndex, 0);
     slide.replaceChildren(...slideContents.children);
     slide.classList.remove('loading');
+  } else {
+    // eslint-disable-next-line no-console
+    console.error('Failed to load product data', resp);
+    slide.remove();
   }
 }
 
