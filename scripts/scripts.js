@@ -121,6 +121,19 @@ async function loadFonts() {
 }
 
 /**
+ * 
+ * @param {String} url the url to fetch
+ * @returns the fetch response
+ */
+export async function fetchCors(url) {
+  if (window.location.hostname.includes('macys.com')) {
+    return fetch(url);
+  }
+  const worker = 'https://little-forest-58aa.david8603.workers.dev';
+  const fetchUrl = `${worker}/?url=${encodeURIComponent(url)}`;
+  return fetch(fetchUrl);
+}
+/**
  * Load a template module for the page
  * @param {Document} doc the document element
  */

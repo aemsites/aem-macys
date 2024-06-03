@@ -4,11 +4,11 @@ import {
   buildBlock,
   toClassName,
 } from '../../scripts/aem.js';
-import { removeButtons } from '../../scripts/scripts.js';
+import { removeButtons, fetchCors } from '../../scripts/scripts.js';
 import { createSlide } from '../carousel/carousel.js';
 
 async function loadSlide(slide) {
-  const resp = await fetch(`https://www.macys.com/xapi/digital/v1/product/${slide.dataset.productId}`);
+  const resp = await fetchCors(`https://www.macys.com/xapi/digital/v1/product/${slide.dataset.productId}`);
   if (resp.ok) {
     const json = await resp.json();
 

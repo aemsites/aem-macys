@@ -1,3 +1,5 @@
+import { fetchCors } from './scripts.js';
+
 const BASE_URL = 'https://www.macys.com/xapi/discover/v1/page';
 export default async function invokePageApi(path, categoryId, params) {
   // encoding this fails, for...reasons !!!!?!?!?!
@@ -13,5 +15,5 @@ export default async function invokePageApi(path, categoryId, params) {
   const additionalParams = `&${Object.entries(allParams).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&')}`;
 
   const fetchUrl = `${BASE_URL}?${pathParam}${additionalParams}`;
-  return fetch(fetchUrl);
+  return fetchCors(fetchUrl);
 }
