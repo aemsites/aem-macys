@@ -404,19 +404,31 @@ async function renderProductGrid(facetsEl, productGrid, pagingEl) {
  * @param {Element} block the block
  */
 export default async function decorate(block) {
-  const catId = getMetadata('category-id');
-  if (catId) {
-    const facets = div({ class: 'product-grid-facets' });
-    const productGrid = div({
-      class: 'product-grid-products',
-      'data-page': '1',
-      'data-per-page': '60',
-      'data-sort': 'ORIGINAL',
-      'data-category': catId,
+  const load = () => {
+    const catId = getMetadata('category-id');
+    if (catId) {
+      const facets = div({ class: 'product-grid-facets' });
+      const productGrid = div({
+        class: 'product-grid-products',
+        'data-page': '1',
+        'data-per-page': '60',
+        'data-sort': 'ORIGINAL',
+        'data-category': catId,
+      });
+      const paging = div({ class: 'product-grid-paging' });
+      renderProductGrid(facets, productGrid, paging);
+      block.replaceChildren(facets, productGrid, paging);
+    }
+  };
+  const blockObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        blockObserver.disconnect();
+        load();
+      }
     });
-    const paging = div({ class: 'product-grid-paging' });
-    renderProductGrid(facets, productGrid, paging);
-    block.replaceChildren(facets, productGrid, paging);
-  }
+  });
+  blockObserver.observe(block);
+
   document.querySelector('main').append(div({ class: 'loading-products-overlay' }));
 }
