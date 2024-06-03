@@ -121,7 +121,7 @@ async function loadFonts() {
 }
 
 /**
- * 
+ * fetch an external url, bypass cors if needed.
  * @param {String} url the url to fetch
  * @returns the fetch response
  */
