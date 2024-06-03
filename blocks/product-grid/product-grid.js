@@ -134,7 +134,7 @@ function updatePaging(pagingEl, gridModel) {
 
 const imgBaseUrl = 'https://slimages.macysassets.com/is/image/MCY/products';
 
-function updateImage(imageContainer, imagery) {
+function updateImage(imageContainer, imagery, eager = false) {
   const createPicture = (filePath) => domEl(
     'picture',
     domEl('source', { type: 'image/webp', srcset: `${imgBaseUrl}/${filePath}?$browse$&wid=400&fmt=webp` }),
@@ -142,7 +142,7 @@ function updateImage(imageContainer, imagery) {
     domEl('img', {
       src: `${imgBaseUrl}/${filePath}?$browse$&wid=400&fmt=jpeg`,
       alt: imageContainer.title,
-      loading: 'lazy',
+      loading: eager ? 'eager' : 'lazy',
       width: 400,
       height: 489,
     }),
@@ -248,7 +248,7 @@ function updateColorSwatches(swatchContainer, imageContainer, colors) {
   swatchContainer.replaceChildren(swatchList);
 }
 
-function createProductCard(product) {
+function createProductCard(product, eager) {
   const {
     pricing, identifier, detail, traits, imagery,
   } = product;
@@ -275,9 +275,9 @@ function createProductCard(product) {
     const colors = div({ class: 'product-colors' });
     updateColorSwatches(colors, item.querySelector('.product-image a'), traits.colors.colorMap);
     item.querySelector('.product-content').prepend(colors);
-    updateImage(item.querySelector('.product-image a'), traits.colors.colorMap[0].imagery);
+    updateImage(item.querySelector('.product-image a'), traits.colors.colorMap[0].imagery, eager);
   } else {
-    updateImage(item.querySelector('.product-image a'), imagery);
+    updateImage(item.querySelector('.product-image a'), imagery, eager);
   }
 
   if (detail.bottomOverlay) {
@@ -360,9 +360,9 @@ function createProductCard(product) {
 
 function updateProducts(productGrid, sortableGrid) {
   const list = ul({ class: 'product-list' });
-  sortableGrid.collection.forEach((product) => {
+  sortableGrid.collection.forEach((product, idx) => {
     if (product.product) {
-      const item = createProductCard(product.product);
+      const item = createProductCard(product.product, idx < 4);
       list.append(item);
     } else {
       // eslint-disable-next-line no-console
