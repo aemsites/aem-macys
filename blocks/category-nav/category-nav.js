@@ -91,32 +91,14 @@ function renderNavList(navData) {
   return ul;
 }
 
-async function loadNav(catId, block) {
+async function loadNav(catId, nav) {
   const resp = await invokePageApi(window.location.pathname, catId);
   if (resp.ok) {
     const json = await resp.json();
     if (json.body && json.body.categoryTree && json.body.categoryTree.groups) {
-      const nav = document.createElement('nav');
-      nav.setAttribute('aria-label', 'Category Navigation');
       const navList = renderNavList(json.body.categoryTree.groups);
       nav.append(navList);
       nav.id = 'category-nav';
-      block.replaceChildren(nav);
-
-      const expandButton = button({
-        type: 'button',
-        class: 'toggle-nav',
-        'aria-controls': 'category-nav',
-        'aria-label': 'Category Navigation',
-      });
-      toggleNav(expandButton, nav, isDesktop.matches);
-      isDesktop.addEventListener('change', () => {
-        toggleNav(expandButton, nav, isDesktop.matches);
-      });
-      expandButton.addEventListener('click', () => {
-        toggleNav(expandButton, nav);
-      });
-      block.prepend(expandButton);
     }
   }
 }
@@ -126,8 +108,26 @@ async function loadNav(catId, block) {
  * @param {Element} block the block
  */
 export default async function decorate(block) {
+  const nav = document.createElement('nav');
+  nav.setAttribute('aria-label', 'Category Navigation');
+
+  const expandButton = button({
+    type: 'button',
+    class: 'toggle-nav',
+    'aria-controls': 'category-nav',
+    'aria-label': 'Category Navigation',
+  });
+  toggleNav(expandButton, nav, isDesktop.matches);
+  isDesktop.addEventListener('change', () => {
+    toggleNav(expandButton, nav, isDesktop.matches);
+  });
+  expandButton.addEventListener('click', () => {
+    toggleNav(expandButton, nav);
+  });
+  block.replaceChildren(expandButton, nav);
+
   const catId = getMetadata('category-id');
   if (catId) {
-    loadNav(catId, block);
+    loadNav(catId, nav);
   }
 }
