@@ -97,11 +97,13 @@ function updatePaging(pagingEl, gridModel) {
   )));
   const selector = navList.querySelector('select');
   for (let i = 1; i <= numberOfPages; i += 1) {
-    const opt = domEl('option', { value: i }, `${i} of ${numberOfPages}`);
-    if (i === currentPage) {
-      opt.setAttribute('selected', '');
+    if (i === currentPage || i === 1 || i === numberOfPages || i % 10 === 0) {
+      const opt = domEl('option', { value: i }, `${i} of ${numberOfPages}`);
+      if (i === currentPage) {
+        opt.setAttribute('selected', '');
+      }
+      selector.append(opt);
     }
-    selector.append(opt);
   }
   selector.addEventListener('change', () => {
     updateGrid(pagingEl.closest('.product-grid'), {
