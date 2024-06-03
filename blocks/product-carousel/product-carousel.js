@@ -17,13 +17,11 @@ async function loadSlide(slide) {
     const product = json.product[0];
     const imgBaseUrl = product.urlTemplate.product;
     imageCol.innerHTML = `
-      <a title="${product.detail.name}" href="https://www.macys.com${product.identifier.productUrl}">
         <picture>
           <source type="image/webp" srcset="${imgBaseUrl}/${product.imagery.images[0].filePath}?qlt=85,0&amp;resMode=sharp2&amp;op_usm=1.75,0.3,2,0&amp;fmt=webp&amp;wid=240&amp;hei=300">
           <source type="image/jpeg" srcset="${imgBaseUrl}/${product.imagery.images[0].filePath}?qlt=85,0&amp;resMode=sharp2&amp;op_usm=1.75,0.3,2,0&amp;fmt=jpeg&amp;wid=240&amp;hei=300">
           <img src="${imgBaseUrl}/${product.imagery.images[0].filePath}?qlt=85,0&amp;resMode=sharp2&amp;op_usm=1.75,0.3,2,0&amp;fmt=jpeg&amp;wid=240&amp;hei=300" alt="${product.detail.name}" loading="lazy"  width="240" height="300">
         </picture>
-      </a>
     `;
     const contentCol = document.createElement('div');
     contentCol.innerHTML = `
@@ -71,7 +69,8 @@ async function loadSlide(slide) {
     }
 
     slideRow.append(imageCol, contentCol);
-    slide.replaceChildren(...createSlide(slideRow, slide.dataset.slideIndex, 0).children);
+    const slideContents = createSlide(slideRow, slide.dataset.slideIndex, 0);
+    slide.replaceChildren(...slideContents.children);
     slide.classList.remove('loading');
   }
 }

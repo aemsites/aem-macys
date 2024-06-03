@@ -23,7 +23,8 @@
 }
 
 .carousel .carousel-slide {
-  flex: 0 0 200px;
+  flex: 0 0 auto;
+  max-width: 200px;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -33,7 +34,7 @@
 }
 
 .carousel.small .carousel-slide {
-  flex-basis: 220px;
+  max-width: 220px;
   border: 1px solid black;
   border-radius: 5px;
   padding: 1rem;
@@ -42,13 +43,13 @@
 
 @media (width >= 600px) {
   .carousel .carousel-slide {
-    flex-basis: 300px;
+    max-width: 300px;
   }
 }
 
 @media (width >= 900px) {
   .carousel .carousel-slide {
-    flex-basis: auto;
+    max-width: 450px;
   }
 }
 
