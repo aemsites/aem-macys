@@ -9,13 +9,16 @@
   --layout-gap: 2rem;
   --item-max-width: 200px;
   --min-visible-count: 1;
+  --extra-slide-offset: .3;
 
   /**
     * Calculated values.
     */
   --gap-count: calc(var(--min-visible-count) - 1);
   --total-gap-width: calc(var(--gap-count) * var(--layout-gap));
-  --item-calc-max-width: min(var(--item-max-width), calc((100% - var(--total-gap-width)) / calc(var(--min-visible-count) + .3)));
+  --width-without-gaps: calc(100% - var(--total-gap-width));
+  --real-min-visible-count: calc(var(--min-visible-count) + var(--extra-slide-offset));
+  --item-calc-max-width: min(var(--item-max-width), calc(var(--width-without-gaps) / var(--real-min-visible-count)));
  
 
   display: flex;
@@ -82,6 +85,7 @@
 @media (width >= 1200px) {
   .carousel.small .carousel-slides {
     --min-visible-count: 6;
+    --extra-slide-offset: 0;
   }
 }
 
