@@ -108,6 +108,19 @@ export function createSlide(row, slideIndex, carouselId) {
   cols.forEach((column, colIdx) => {
     if (colIdx === 0 && column.querySelector('picture')) {
       column.classList.add('carousel-slide-image');
+      const pic = column.querySelector('picture');
+      if (pic.querySelector('img').getAttribute('src').startsWith('./media_')) {
+        pic.querySelectorAll('source').forEach((source) => {
+          let srcset = source.getAttribute('srcset');
+          srcset = srcset.replace('width=2000', 'width=800');
+          srcset = srcset.replace('width=750', 'width=400');
+          source.setAttribute('srcset', srcset);
+        });
+        let imgSrc = pic.querySelector('img').getAttribute('src');
+        imgSrc = imgSrc.replace('width=2000', 'width=800');
+        imgSrc = imgSrc.replace('width=750', 'width=400');
+        pic.querySelector('img').setAttribute('src', imgSrc);
+      }
     } else {
       column.classList.add('carousel-slide-content');
       cardLink = column.querySelector('a');
