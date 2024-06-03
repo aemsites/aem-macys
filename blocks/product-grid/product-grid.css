@@ -32,9 +32,11 @@ main .product-grid .product-list {
 }
 
 main .product-grid .product-card {
-  display: flex;
-  flex-direction: column;
   max-width: 400px;
+}
+
+main .product-grid .product-card > div:not(.product-image, .bottom-overlay) {
+  padding-inline: .5rem;
 }
 
 main .product-grid .product-card .pic-scroller {
