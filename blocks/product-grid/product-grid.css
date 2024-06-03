@@ -1,6 +1,7 @@
 main .product-grid {
   position: relative;
   scroll-margin-block-start: 2rem;
+  min-height: 800px;
 }
 
 main .product-grid .product-grid-products {
