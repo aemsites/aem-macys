@@ -72,8 +72,8 @@ async function loadSlide(slide) {
 
     slideRow.append(imageCol, contentCol);
     slide.replaceChildren(...createSlide(slideRow, slide.dataset.slideIndex, 0).children);
+    slide.classList.remove('loading');
   }
-  slide.classList.remove('loading');
 }
 
 /**

@@ -5,6 +5,7 @@ main .product-carousel .carousel .carousel-navigation-buttons {
 main .product-carousel .carousel-slide {
   flex-basis: 240px;
   justify-content: flex-start;
+  min-height: 350px;
 }
 
 main .product-carousel .carousel-slide.loading {

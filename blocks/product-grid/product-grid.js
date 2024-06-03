@@ -179,7 +179,7 @@ function updateImage(imageContainer, imagery) {
         left: scrollTo.offsetLeft - picScroller.offsetLeft,
         behavior: 'smooth',
       });
-    }, 2000);
+    }, 1800);
   });
   picScroller.addEventListener('mouseleave', () => {
     setTimeout(() => {
