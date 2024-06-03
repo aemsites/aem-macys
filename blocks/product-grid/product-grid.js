@@ -249,7 +249,6 @@ function updateColorSwatches(swatchContainer, imageContainer, colors) {
 }
 
 function createProductCard(product) {
-  // console.log(product);
   const {
     pricing, identifier, detail, traits, imagery,
   } = product;
@@ -359,8 +358,12 @@ function createProductCard(product) {
 function updateProducts(productGrid, sortableGrid) {
   const list = ul({ class: 'product-list' });
   sortableGrid.collection.forEach((product) => {
-    const item = createProductCard(product.product);
-    list.append(item);
+    if (product.product) {
+      const item = createProductCard(product.product);
+      list.append(item);
+    } else {
+      console.warn('proudct not defined', product);
+    }
   });
   productGrid.replaceChildren(list);
 }
