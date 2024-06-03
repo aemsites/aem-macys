@@ -84,10 +84,12 @@
 .shared-header .nav-curtain {
   background-color: rgba(0 0 0 / 50%);
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: var(--nav-height);
+  height: 100lvh;
   transition: opacity .25s linear 50ms;
   opacity: 0;
-  top: var(--nav-height);
   visibility: hidden;
   width: 100%;
   z-index: 9;
