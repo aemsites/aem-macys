@@ -362,7 +362,7 @@ function updateProducts(productGrid, sortableGrid) {
   const list = ul({ class: 'product-list' });
   sortableGrid.collection.forEach((product, idx) => {
     if (product.product) {
-      const item = createProductCard(product.product, idx < 4);
+      const item = createProductCard(product.product, idx === 0);
       list.append(item);
     } else {
       // eslint-disable-next-line no-console
