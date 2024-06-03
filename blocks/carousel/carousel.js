@@ -118,7 +118,7 @@ export function createSlide(row, slideIndex, carouselId) {
         });
         let imgSrc = pic.querySelector('img').getAttribute('src');
         imgSrc = imgSrc.replace('width=2000', 'width=800');
-        imgSrc = imgSrc.replace('width=750', 'width=400');
+        imgSrc = imgSrc.replace('width=750', 'width=450');
         pic.querySelector('img').setAttribute('src', imgSrc);
       }
     } else {
