@@ -46,22 +46,29 @@ function openFilterModel(facets, meta, focus) {
       button({
         type: 'button', 'data-facet-name': facet.name, 'aria-controls': toClassName(`facet-${facet.name}`), 'aria-expanded': false,
       }, facet.displayName),
-      ul({ id: toClassName(`facet-${facet.name}`), class: 'filter-facet-values' }),
+      ul({ id: toClassName(`facet-${facet.name}`), class: `filter-facet-values ${toClassName(facet.facetType)}` }),
     );
     if (facet.values) {
       facet.values.forEach((value) => {
         const facetValue = li(a(
           {
-            role: 'checkbox', 'aria-checked': 'false', href: value.url, 'data-value': value.value,
+            class: 'checkbox-link', role: 'checkbox', 'aria-checked': 'false', href: value.url, 'data-value': value.value,
           },
           `${value.displayName} (${value.count})`,
         ));
         if (facet.facetType === 'MULTISELECTSWATCH') {
-          // change to color swatches
+          const colorSwatch = span({ class: `color-swatch color-swatch-${toClassName(value.value)}` });
+          const link = facetValue.querySelector('a');
+          link.title = link.textContent;
+          link.textContent = value.displayName;
+          link.className = 'color-swatch-link';
+          link.prepend(colorSwatch);
         } else if (facet.facetType === 'MULTISELECTRATINGS') {
-          // add rating stars
           const starsSpan = span({ class: `rating-stars rating-stars-${toClassName(value.value)}` });
-          facetValue.querySelector('a').prepend(starsSpan);
+          const link = facetValue.querySelector('a');
+          link.title = link.textContent;
+          link.textContent = '';
+          link.append(starsSpan);
         }
         facetValue.addEventListener('click', (evt) => {
           evt.preventDefault();

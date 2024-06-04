@@ -524,7 +524,7 @@ main .product-grid-filter-dialog .filter-dialog-body .filter-facet:not(:last-chi
 main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded] {
   position: relative;
   width: 100%;
-  margin: 0 0 1em 0;
+  margin: 0 0 1em;
   padding: 0;
   justify-content: flex-start;
   height: auto;
@@ -553,11 +553,11 @@ main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-e
 }
 
 main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded] + .filter-facet-values {
-  display: none;
+  gap: .5rem;
 }
 
-main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded="true"] + .filter-facet-values {
-  display: block;
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded="false"] + .filter-facet-values {
+  display: none;
 }
 
 main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a {
@@ -574,7 +574,7 @@ main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet
   text-decoration: underline;
 }
 
-main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a::before {
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a.checkbox-link::before {
   content: "";
   border: 1px solid black;
   width: 1.5rem;
@@ -583,6 +583,119 @@ main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet
   margin-inline-end: 1rem;
 }
 
-main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a[aria-checked="true"]::before {
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a.checkbox-link[aria-checked="true"]::before {
   background: url('/icons/checkmark.svg') no-repeat center center;
 }
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .rating-stars {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 70px;
+  height: 20px;
+  margin-inline-end: 8px;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .rating-stars::before {
+  content: "";
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUuOCA1LjhoLTRMNSA4LjJsLTEuMiA0TDcgOS44bDMuMiAyLjQtMS4yLTQgMy4zLTIuNGgtNEw3IDEuOGwtMS4yIDR6IiBmaWxsPSIjMDAwIi8+PC9zdmc+");
+  background-repeat: repeat-x;
+  background-position: left center;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .rating-stars.rating-stars-4-stars-up::before {
+  width: 80%;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .rating-stars.rating-stars-3-stars-up::before {
+  width: 60%;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values.multiselectswatch {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values.multiselectswatch .color-swatch-link {
+  flex-direction: column;
+}
+
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch {
+  --swatch-color: #000;
+
+  background: var(--swatch-color);
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--dark-color);
+  border-radius: 50%;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values.multiselectswatch .color-swatch-link[aria-checked="true"] .color-swatch {
+  outline: 1px solid var(--link-hover-color);
+  outline-offset: 2px;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-blue {
+  --swatch-color: linear-gradient(135deg,#517abe 50%,#405faa);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-brown {
+  --swatch-color: linear-gradient(135deg,#71431b,#593515);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-gold {
+  --swatch-color: linear-gradient(135deg,#f3d889,#eed076 50%,#dbae2b 51%,#bf9520);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-ivory-cream {
+  --swatch-color: linear-gradient(135deg,#fffde5 50%,#f6f5e7);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-gray {
+  --swatch-color: linear-gradient(135deg,#ddd 50%,#c3c3c3);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-green {
+  --swatch-color: linear-gradient(135deg,#00b660 50%,#009d49);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-orange {
+  --swatch-color: linear-gradient(135deg,#f47728 50%,#f15c1f);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-pink {
+  --swatch-color: linear-gradient(135deg,#f8acd6 50%,#ee90c4);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-purple {
+  --swatch-color: linear-gradient(135deg,#6d36a5 50%,#552a89);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-tan-beige {
+  --swatch-color: linear-gradient(135deg,#fee8ce 50%,#fed5a8);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-white {
+  --swatch-color: #fff;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-red {
+  --swatch-color: linear-gradient(135deg, #e71f28 50%, #da0f16);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-silver {
+  --swatch-color: linear-gradient(135deg, #f1f1f1, #e8e8e8 50%, #c4c4c4 51%, #a4a4a4);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-yellow {
+  --swatch-color: linear-gradient(135deg, #fff400 50%, #fae602);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch.color-swatch-multi {
+  --swatch-color: url('https://assets.macys.com/navapp/web20/assets/img/multifacet/multi.gif');
+}
+
