@@ -360,16 +360,37 @@ function createProductCard(product, eager) {
 
 function updateProducts(productGrid, sortableGrid) {
   const list = ul({ class: 'product-list' });
-  sortableGrid.collection.forEach((product, idx) => {
-    if (product.product) {
-      const item = createProductCard(product.product, idx === 0);
-      list.append(item);
-    } else {
-      // eslint-disable-next-line no-console
-      console.warn('proudct not defined', product);
-    }
-  });
   productGrid.replaceChildren(list);
+
+  const loadAndObserve = (toLoad, observer, eager) => {
+    toLoad.forEach((product, idx) => {
+      if (product.product) {
+        const item = createProductCard(product.product, eager && idx === 0);
+        list.append(item);
+        if (idx === (toLoad.length - 1)) {
+          observer.observe(item);
+        }
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn('proudct not defined', product);
+      }
+    });
+  };
+
+  const loadCount = 8;
+  let first = sortableGrid.collection.slice(0, loadCount);
+  let rest = sortableGrid.collection.slice(loadCount);
+  const loadMoreObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadMoreObserver.unobserve(entry.target);
+        first = rest.slice(0, loadCount);
+        rest = rest.slice(loadCount);
+        loadAndObserve(first, loadMoreObserver, false);
+      }
+    });
+  }, { rootMargin: '150px' });
+  loadAndObserve(first, loadMoreObserver, true);
 }
 
 function updateMeta(gridModelMeta) {

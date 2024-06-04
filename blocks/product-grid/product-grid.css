@@ -310,11 +310,24 @@ main .product-grid .select-container select {
   padding: 15px 14px 15px 12px;
   border: 1px solid #626369;
   border-radius: .3125rem;
+  appearance: none;
+  background: no-repeat url('/icons/chevron-down.svg');
+  background-position: calc(100% - 8px);
+  width: 100%;
+}
+
+
+main .product-grid .select-container select:focus {
+  outline: black solid 1px;
 }
 
 main .product-grid .product-grid-facets {
   display: flex;
   justify-content: space-between;
+}
+
+main .product-grid .product-grid-facets .product-sorts {
+  width: 225px;
 }
 
 main .loading-products-overlay {
