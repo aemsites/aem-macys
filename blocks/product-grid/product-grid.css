@@ -236,6 +236,7 @@ main .product-grid .product-grid-paging .pages ul {
 
 main .product-grid .product-grid-paging .pages ul {
   gap: 4px;
+  line-height: 1;
 }
 
 main .product-grid .product-grid-paging .per-page {
