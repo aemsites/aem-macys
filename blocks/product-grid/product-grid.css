@@ -328,11 +328,40 @@ main .product-grid .select-container select:focus {
 
 main .product-grid .product-grid-facets {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }
 
 main .product-grid .product-grid-facets .product-sorts {
-  width: 225px;
+  display: none;
+}
+
+@media (width > 900px) {
+  main .product-grid .product-grid-facets {
+    justify-content: space-between;
+  }
+
+  main .product-grid .product-grid-facets .product-sorts {
+    display: block;
+    width: 225px;
+  }
+}
+
+main .product-grid .product-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+main .product-grid .product-filters .filter-button {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-weight: 400;
+  border: 1px solid currentcolor;
+}
+
+main .product-grid .product-filters .filter-button .icon {
+  margin-inline-end: .5rem;
 }
 
 main .loading-products-overlay {
@@ -402,4 +431,158 @@ main.loading-products .loading-products-overlay::after {
   90% {
       box-shadow: 0 -3em 0 .1em #e01a2b,2em -2em 0 0 #e01a2b,3em 0 0 -.5em #e01a2b,2em 2em 0 -.5em #e01a2b,0 3em 0 -.5em #e01a2b,-2em 2em 0 -.5em #e01a2b,-3em 0 0 -.5em #e01a2b,-2em -2em 0 0 #e01a2b
   }
+}
+
+/* filter dialog */
+main .product-grid-filter-dialog {
+  inset: 0;
+  left: unset;
+  height: 100%;
+  max-height: unset;
+  width: 100%;
+  max-width: 600px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+main .product-grid-filter-dialog::backdrop {
+  background-color: rgb(0 0 0 / 50%);
+}
+
+main .product-grid-filter-dialog .filter-dialog-content {
+  padding: 2rem;
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+}
+
+main .product-grid-filter-dialog .filter-dialog-header,
+main .product-grid-filter-dialog .filter-dialog-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+main .product-grid-filter-dialog .filter-dialog-header h2 {
+  margin: 0;
+  font-size: var(--heading-font-size-l);
+}
+
+main .product-grid-filter-dialog .filter-dialog-header button {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 24px;
+  width: 24px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+main .product-grid-filter-dialog .filter-dialog-header button::before,
+main .product-grid-filter-dialog .filter-dialog-header button::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: currentcolor;
+  rotate: 45deg;
+}
+
+main .product-grid-filter-dialog .filter-dialog-header button::after {
+  rotate: -45deg;
+}
+
+main .product-grid-filter-dialog .filter-dialog-footer button {
+  margin: 0;
+  flex: 1 1 100%;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body {
+  overflow-y: auto;
+  height: 100%;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facets, 
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet-values {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet:not(:last-child) {
+  border-bottom: 1px solid var(--dark-color);
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded] {
+  position: relative;
+  width: 100%;
+  margin: 0 0 1em 0;
+  padding: 0;
+  justify-content: flex-start;
+  height: auto;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: var(--heading-font-size-m);
+  display: flex;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded]::before,
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded]::after {
+  position: absolute;
+  content: "";
+  right: 2rem;
+  background-color: currentcolor;
+  width: 1px;
+  height: 10px;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded]::after {
+  rotate: 90deg;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded="true"]::before {
+  content: none;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded] + .filter-facet-values {
+  display: none;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded="true"] + .filter-facet-values {
+  display: block;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a {
+  text-decoration: none;
+  font-weight: 400;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  padding: .5rem;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a:hover {
+  text-decoration: underline;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a::before {
+  content: "";
+  border: 1px solid black;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-block;
+  margin-inline-end: 1rem;
+}
+
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values a[aria-checked="true"]::before {
+  background: url('/icons/checkmark.svg') no-repeat center center;
 }

@@ -126,7 +126,8 @@ async function loadFonts() {
  * @returns the fetch response
  */
 export async function fetchCors(url) {
-  if (window.location.hostname.includes('macys.com')) {
+  const bypassWorker = true;
+  if (bypassWorker || window.location.hostname.includes('macys.com')) {
     return fetch(url);
   }
   const worker = 'https://little-forest-58aa.david8603.workers.dev';

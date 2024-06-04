@@ -29,11 +29,109 @@ async function updateGrid(block, opts) {
   setTimeout(() => { document.querySelector('main').classList.remove('loading-products'); }, 500);
 }
 
-function updateFacets(facetsEl, facets, sorts) {
-  console.log(facets);
-  const filter = div({ class: 'product-filters' });
+function openFilterModel(facets, meta, focus) {
+  const dlg = domEl(
+    'dialog',
+    { class: 'product-grid-filter-dialog' },
+    div(
+      { class: 'filter-dialog-content' },
+      div({ class: 'filter-dialog-header' }, domEl('h2', 'Filters'), button({ type: 'button', class: 'close-dialog', 'aria-label': 'Close' })),
+      div({ class: 'filter-dialog-body' }, ul({ class: 'filter-facets' })),
+      div({ class: 'filter-dialog-footer' }, button({ type: 'button', disabled: '', class: 'clear-filters secondary' }, 'Clear All'), button({ type: 'button', class: 'apply-filters' }, `View ${meta.itemCount} Items`)),
+    ),
+  );
+  facets.facets.forEach((facet) => {
+    const facetEl = li(
+      { class: 'filter-facet' },
+      button({
+        type: 'button', 'data-facet-name': facet.name, 'aria-controls': toClassName(`facet-${facet.name}`), 'aria-expanded': false,
+      }, facet.displayName),
+      ul({ id: toClassName(`facet-${facet.name}`), class: 'filter-facet-values' }),
+    );
+    if (facet.values) {
+      facet.values.forEach((value) => {
+        const facetValue = li(a(
+          {
+            role: 'checkbox', 'aria-checked': 'false', href: value.url, 'data-value': value.value,
+          },
+          `${value.displayName} (${value.count})`,
+        ));
+        if (facet.facetType === 'MULTISELECTSWATCH') {
+          // change to color swatches
+        } else if (facet.facetType === 'MULTISELECTRATINGS') {
+          // add rating stars
+          const starsSpan = span({ class: `rating-stars rating-stars-${toClassName(value.value)}` });
+          facetValue.querySelector('a').prepend(starsSpan);
+        }
+        facetValue.addEventListener('click', (evt) => {
+          evt.preventDefault();
+          const link = facetValue.querySelector('a');
+          const expanded = link.getAttribute('aria-checked') === 'true';
+          link.setAttribute('aria-checked', !expanded);
+        });
+        facetEl.querySelector('ul').append(facetValue);
+      });
+    }
 
-  const sort = div(
+    if (facet.facetType === 'MULTISELECTRANGE') {
+      // add range input
+    }
+    if (facet.facetType === 'MULTISELECTSCROLLBAR') {
+      // add scroll and search
+    }
+    if (facet.facetType === 'MULTISELECTBUTTON') {
+      // add select and group by facet.children
+    }
+
+    dlg.querySelector('.filter-facets').append(facetEl);
+  });
+  dlg.querySelectorAll('.filter-facet > button[aria-controls]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', !expanded);
+    });
+  });
+
+  dlg.querySelector('.close-dialog').addEventListener('click', () => {
+    document.body.style.overflowY = '';
+    dlg.close();
+    dlg.remove();
+  });
+  dlg.addEventListener('click', (event) => {
+    const dialogDimensions = dlg.getBoundingClientRect();
+    if (event.clientX < dialogDimensions.left || event.clientX > dialogDimensions.right
+      || event.clientY < dialogDimensions.top || event.clientY > dialogDimensions.bottom) {
+      document.body.style.overflowY = '';
+      dlg.close();
+      dlg.remove();
+    }
+  });
+  document.body.querySelector('main').append(dlg);
+  document.body.style.overflowY = 'hidden';
+  dlg.showModal();
+  if (focus) {
+    const focusEl = dlg.querySelector(`.filter-facet > button[data-facet-name="${focus}"]`);
+    if (focusEl) {
+      focusEl.setAttribute('aria-expanded', 'true');
+      focusEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+}
+
+function updateFacets(facetsEl, facets, gridModel) {
+  const { sort, meta } = gridModel;
+  console.log(facets);
+  const filter = div(
+    { class: 'product-filters' },
+    button({ class: 'filter-button filter-modal' }, span({ class: 'icon icon-utility-filter' }), 'All Filters'),
+  );
+  decorateIcons(filter);
+  filter.querySelector('.filter-button.filter-modal').addEventListener('click', (evt) => {
+    const btn = evt.currentTarget;
+    openFilterModel(facets, meta, btn.dataset.filterName);
+  });
+
+  const sortEl = div(
     { class: 'product-sorts' },
     div(
       { class: 'select-container' },
@@ -41,8 +139,8 @@ function updateFacets(facetsEl, facets, sorts) {
       domEl('select', { id: 'sort-select' }),
     ),
   );
-  const selector = sort.querySelector('select');
-  sorts.forEach((sortBy) => {
+  const selector = sortEl.querySelector('select');
+  sort.forEach((sortBy) => {
     const { name, value, isSelected } = sortBy;
     const opt = domEl('option', { value }, name);
     if (isSelected) {
@@ -56,7 +154,7 @@ function updateFacets(facetsEl, facets, sorts) {
     });
   });
 
-  facetsEl.replaceChildren(filter, sort);
+  facetsEl.replaceChildren(filter, sortEl);
 }
 
 function updatePaging(pagingEl, gridModel) {
@@ -415,7 +513,7 @@ async function renderProductGrid(facetsEl, productGrid, pagingEl) {
       const { rowSortableGrid } = json.body.canvas.rows.find((row) => row.rowSortableGrid);
       const { facets } = rowSortableGrid.zones.find((zone) => zone.facets);
       const { sortableGrid } = rowSortableGrid.zones.find((zone) => zone.sortableGrid);
-      updateFacets(facetsEl, facets, sortableGrid.model.sort);
+      updateFacets(facetsEl, facets, sortableGrid.model, sortableGrid.model);
       updateProducts(productGrid, sortableGrid);
       updatePaging(pagingEl, sortableGrid.model);
       updateMeta(sortableGrid.model.meta);
