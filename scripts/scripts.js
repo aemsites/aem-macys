@@ -126,7 +126,7 @@ async function loadFonts() {
  * @returns the fetch response
  */
 export async function fetchCors(url) {
-  const bypassWorker = true;
+  const bypassWorker = false;
   if (bypassWorker || window.location.hostname.includes('macys.com')) {
     return fetch(url);
   }
