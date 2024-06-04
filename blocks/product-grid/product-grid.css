@@ -553,7 +553,7 @@ main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-e
 }
 
 main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded] + .filter-facet-values {
-  gap: .5rem;
+  gap: 0;
 }
 
 main .product-grid-filter-dialog .filter-dialog-body .filter-facet button[aria-expanded="false"] + .filter-facet-values {
@@ -614,6 +614,11 @@ main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet
   width: 60%;
 }
 
+main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values.multiselectscrollbar {
+  overflow-y: auto;
+  max-height: 300px;
+}
+
 main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values.multiselectswatch {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -622,7 +627,6 @@ main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet
 main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values.multiselectswatch .color-swatch-link {
   flex-direction: column;
 }
-
 
 main .product-grid-filter-dialog .filter-dialog-body .filter-facet .filter-facet-values .color-swatch {
   --swatch-color: #000;
