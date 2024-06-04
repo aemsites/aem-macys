@@ -288,6 +288,10 @@ main .product-grid .product-grid-paging .pages .page-prev img {
   rotate: 180deg;
 }
 
+main .product-grid .product-grid-paging .pages .select-container {
+  width: 140px;
+}
+
 main .product-grid .select-container {
   position: relative;
 }
